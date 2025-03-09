@@ -394,3 +394,24 @@ def add_check_channel(message):
 
 if __name__ == '__main__':
 	bot.polling(none_stop=True)
+
+'''
+# Fetch reactions for the media message
+    chat_member = bot.get_chat_member(chat_id=message.chat.id, user_id=bot.id)
+    reactions = chat_member.get('user', {}).get('is_bot') and bot.get_chat_member(chat_id=message.chat.id, user_id=user_id).get('user').get('is_bot')
+    if reactions:
+        reaction_count = len([reaction for reaction in reactions if reaction.get('user', {}).get('is_bot') == False and reaction['type'] in ['like', 'dislike']])
+        user_collection.update_one({'user_id': user_id}, {'$inc': {'likes_count': reaction_count}})
+            
+        # Update reactions in the database
+        for reaction in reactions:
+            if reaction.get('user', {}).get('is_bot'):
+                continue
+            reaction_user_id = reaction['user']['id']
+            if reaction['type'] == 'like':
+                user_collection.update_one({'user_id': reaction_user_id}, {'$inc': {'likes_count': 1}})
+            elif reaction['type'] == 'dislike':
+                user_collection.update_one({'user_id': reaction_user_id}, {'$inc': {'dislikes_count': 1}})
+
+  
+'''
