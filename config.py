@@ -1,4 +1,4 @@
-TOKEN = '7595969999:AAF5TYM-FgMIkp4_7eVswhv3vIVkICc1MNc'
+TOKEN = '7599891241:AAG22bLTQclYki3AIhlPlo40nzIt2BdQkEk'
 db_url = 'sqlite:///example.db'
 channel = '@hellomememe'
 api_id = '29946059'

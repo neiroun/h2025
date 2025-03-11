@@ -13,15 +13,20 @@ import os
 import asyncio
 import traceback
 
-from moviepy.editor import VideoFileClip
+from moviepy.video.io.VideoFileClip import VideoFileClip
 from moviepy.video.fx import crop
+
+from moviepy.editor import *
+from telegram import Update, InputMediaVideo
+from telegram.ext import CallbackContext
+
 
 middleware.start_draw_timer()
 middleware.end_draw_timer()
 
 TEMP_FOLDER = "temp_videos"
 if not os.path.exists(TEMP_FOLDER):
-    os.makedirs(TEMP_FOLDER)
+	os.makedirs(TEMP_FOLDER)
 
 
 @bot.message_handler(commands=['start'])
@@ -97,7 +102,7 @@ def next(call):
 		tmp = middleware.my_draw_info(call.message.chat.id, row=number)
 		if tmp == 'last':
 			bot.answer_callback_query(callback_query_id=call.id, show_alert=False,  text=text['last'])
-			return 
+			return
 		bot.delete_message(call.message.chat.id, call.message.message_id)
 		fsm.set_state(call.message.chat.id, 'my_draws', number=number)
 	except:
@@ -113,7 +118,7 @@ def back(call):
 		tmp = middleware.my_draw_info(call.message.chat.id, row=number)
 		if tmp == 'first':
 			bot.answer_callback_query(callback_query_id=call.id, show_alert=False,  text=text['first'])
-			return 
+			return
 
 		bot.delete_message(call.message.chat.id, call.message.message_id)
 		fsm.set_state(call.message.chat.id, 'my_draws', number=number)
@@ -149,7 +154,7 @@ def enter_text(message):
 	text = language_check(str(message.chat.id))[1]['draw']
 	back_button = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
 	back_button.row(text['back_in_menu'])
-	
+
 	try:
 		if str(bot.get_chat_member(chat_id=message.text, user_id=message.from_user.id).status) not in status:
 			bot.send_message(text['not_admin'], reply_markup=back_button)
@@ -190,7 +195,7 @@ def enter_photo(message):
 	else:
 		file_id = ''
 		file_type = 'text'
-	
+
 	fsm.set_state(message.chat.id, "enter_winers_count", chanel_id=tmp['chanel_id'], chanel_name=tmp['chanel_name'], draw_text=tmp['draw_text'], file_type=file_type, file_id=file_id)
 	bot.send_message(message.chat.id, text['winers_count'], reply_markup=back_button)
 
@@ -203,13 +208,13 @@ def enter_winers_count(message):
 	except:
 		bot.send_message(message.chat.id, text['not_int'])
 		return 'gg'
-	
+
 	back_button = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
 	back_button.row(text['back_in_menu'])
 	tmp = fsm.get_state(message.chat.id)[1]
 	fsm.set_state(message.chat.id, "enter_n_posts", chanel_id=tmp['chanel_id'], chanel_name=tmp['chanel_name'], draw_text=tmp['draw_text'],
 				  file_type=tmp['file_type'], file_id=tmp['file_id'], winers_count=message.text)
-	
+
 	bot.send_message(message.chat.id, text['n_posts'], reply_markup=back_button)
 
 
@@ -244,27 +249,27 @@ def enter_start_time(message):
 	if time.strptime(datetime.now().strftime('%Y-%m-%d %H:%M'), '%Y-%m-%d %H:%M') >= time.strptime(message.text, '%Y-%m-%d %H:%M'):
 		bot.send_message(message.chat.id, text['over_time'])
 		return 'gg'
-	
+
 
 	back_button = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
 	back_button.row(text['back_in_menu'])
-	
+
 	tmp = fsm.get_state(message.chat.id)[1]
-	fsm.set_state(message.chat.id, "enter_end_time", chanel_id=tmp['chanel_id'], chanel_name=tmp['chanel_name'], draw_text=tmp['draw_text'], 
+	fsm.set_state(message.chat.id, "enter_end_time", chanel_id=tmp['chanel_id'], chanel_name=tmp['chanel_name'], draw_text=tmp['draw_text'],
 				  file_type=tmp['file_type'], file_id=tmp['file_id'], winers_count=tmp['winers_count'], n_posts=tmp['n_posts'], start_time=message.text)
-	
+
 	bot.send_message(message.chat.id, text['end_time'], reply_markup=back_button)
 
 
 @bot.message_handler(func=lambda message: True and fsm.get_state(message.chat.id)[0] == 'enter_end_time')
 def enter_end_time(message):
 	text = language_check(str(message.chat.id))[1]['draw']
-	try:																	
+	try:
 		print(time.strptime(message.text, '%Y-%m-%d %H:%M'))
 	except:
 		bot.send_message(message.chat.id, text['invalid_format_time'])
 		return 'gg'
-	
+
 	tmp = fsm.get_state(message.chat.id)[1]
 	if time.strptime(tmp['start_time'], '%Y-%m-%d %H:%M') >= time.strptime(message.text, '%Y-%m-%d %H:%M'):
 		bot.send_message(message.chat.id, text['post_biger'])
@@ -276,7 +281,7 @@ def enter_end_time(message):
 
 	back_button = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
 	back_button.row(text['back_in_menu'])
-	fsm.set_state(message.chat.id, "enter_end_time", chanel_id=tmp['chanel_id'], chanel_name=tmp['chanel_name'], draw_text=tmp['draw_text'], file_type=tmp['file_type'], 
+	fsm.set_state(message.chat.id, "enter_end_time", chanel_id=tmp['chanel_id'], chanel_name=tmp['chanel_name'], draw_text=tmp['draw_text'], file_type=tmp['file_type'],
 				  file_id=tmp['file_id'], winers_count=tmp['winers_count'], n_posts=tmp['n_posts'], start_time=tmp['start_time'], end_time=message.text)
 	tmp = fsm.get_state(message.chat.id)[1]
 	if tmp['file_type'] == 'photo':
@@ -326,7 +331,7 @@ def change_end_time(message):
 @bot.message_handler(func=lambda message: True and fsm.get_state(message.chat.id)[0] == 'change_end_time')
 def confirm_change_end_time(message):
 	text = language_check(str(message.chat.id))[1]['draw']
-	try:																
+	try:
 		print(time.strptime(message.text, '%Y-%m-%d %H:%M'))
 	except:
 		bot.send_message(message.chat.id, text['invalid_format_time'])
@@ -359,7 +364,7 @@ def confirm_change_wines_count(message):
 	except:
 		bot.send_message(message.chat.id, language_check(message.chat.id)[1]['draw']['not_int'])
 		return 'gg'
-	
+
 	base.update(models.DrawProgress, {'winers_count': message.text}, user_id=str(message.chat.id))
 	middleware.send_draw_info(message.chat.id)
 
@@ -462,62 +467,68 @@ def enter_video(message):
 	tmp = fsm.get_state(message.chat.id)[1]
 	if message.content_type == 'video':
 		print("zaebuch")
-		bot.send_message(message.chat.id, language_check(message.chat.id)[1]['create_video']['wait_video'],
-						 reply_markup=back_button)
+		bot.send_message(message.chat.id, "Видео создается")
 		file_info = bot.get_file(message.video.file_id)
 		video_file = bot.download_file(file_info.file_path)
-
-		# Сохраняем видео
-		input_video_path = f'temp_{message.video.file_id}.mp4'
-		output_video_path = f'circle_{message.video.file_id}.mp4'
-
+		input_video_path = f'temp_videos/temp_{message.video.file_id}.mp4'
+		output_video_path = f'temp_videos/square_{message.video.file_id}.mp4'
 		with open(input_video_path, 'wb') as new_file:
 			new_file.write(video_file)
+		add_watermark(input_video_path, input_video_path, 'apz.png')
+		convert_to_square(input_video_path, output_video_path, message)
+		bot.send_message(message.chat.id, language_check(message.chat.id)[1]['menu']['welcome_text'],
+						 reply_markup=keyboard.get_menu_keyboard(message.chat.id))
+		os.remove(input_video_path)
+		os.remove(output_video_path)
 
-		try:
-			# Преобразуем видео в круг
-			clip = VideoFileClip(input_video_path)
-			# Например, обрезаем видео до квадрата
-			min_dimension = min(clip.size)
-			clip_cropped = clip.crop(x1=(clip.w - min_dimension) / 2,
-									 y1=(clip.h - min_dimension) / 2,
-									 width=min_dimension,
-									 height=min_dimension)
-			clip_cropped.write_videofile(output_video_path, codec='libx264')
-
-			# Отправляем обработанное видео обратно пользователю
-			with open(output_video_path, 'rb') as video:
-				bot.send_video(message.chat.id, video)
-		finally:
-			# Удаляем временные файлы
-			os.remove(input_video_path)
-			os.remove(output_video_path)
 	else:
 		print('puzda')
 		file_id = ''
 		file_type = 'text'
 
 
-def process_video(input_path, output_path):
-    # Загружаем видео
-    video = VideoFileClip(input_path)
+def add_watermark(input_video_path, output_video_path, watermark_path):
+	# Загружаем оригинальное видео
+	video = VideoFileClip(input_video_path)
 
-    # Обрезаем видео до квадратного формата
-    (w, h) = video.size
-    min_side = min(w, h)
-    cropped_video = crop(video, width=min_side, height=min_side, x_center=w/2, y_center=h/2)
+	# Загружаем изображение водяного знака
+	watermark = ImageClip(watermark_path)
 
-    # Уменьшаем длительность до 60 секунд (если нужно)
-    if cropped_video.duration > 60:
-        cropped_video = cropped_video.subclip(0, 60)
+	# Устанавливаем продолжительность водяного знака
+	watermark = watermark.set_duration(video.duration)
 
-    # Сохраняем обработанное видео
-    cropped_video.write_videofile(output_path, codec='libx264')
+	# Устанавливаем положение водяного знака (например, нижний правый угол)
+	watermark = watermark.set_position(("center", "center")).set_opacity(0.5)
 
-    # Закрываем видео
-    video.close()
-    cropped_video.close()
+	# Создаем новое видео с водяным знаком
+	result = CompositeVideoClip([video, watermark])
+	result.write_videofile(output_video_path, codec='libx264')
+	
 
+
+def convert_to_square(input_video_path, output_video_path, message):
+	# Prеобразование видео в видеокружок
+	input_video = VideoFileClip(f"{input_video_path}")
+
+	w, h = input_video.size
+	circle_size = 360
+	aspect_ratio = float(w) / float(h)
+
+	if w > h:
+		new_w = int(circle_size * aspect_ratio)
+		new_h = circle_size
+	else:
+		new_w = circle_size
+		new_h = int(circle_size / aspect_ratio)
+
+	resized_video = input_video.resize((new_w, new_h))
+	output_video = resized_video.crop(x_center=resized_video.w/2, y_center=resized_video.h/2, width=circle_size, height=circle_size)
+	output_video.write_videofile(f"{output_video_path}", codec="libx264", audio_codec="aac", bitrate="5M")
+	
+	with open(f"{output_video_path}", "rb") as video:
+		bot.send_video_note(message.chat.id, video)
+
+		#bot.send_video_note(chat_id=message.chat.id, duration=int(output_video.duration), length=circle_size)
 
 
 
@@ -525,23 +536,3 @@ def process_video(input_path, output_path):
 if __name__ == '__main__':
 	bot.polling(none_stop=True)
 
-'''
-# Fetch reactions for the media message
-    chat_member = bot.get_chat_member(chat_id=message1.chat.id, user_id=bot.id)
-    reactions = chat_member.get('user', {}).get('is_bot') and bot.get_chat_member(chat_id=message.chat.id, user_id=user_id).get('user').get('is_bot')
-    if reactions:
-        reaction_count = len([reaction for reaction in reactions if reaction.get('user', {}).get('is_bot') == False and reaction['type'] in ['like', 'dislike']])
-        user_collection.update_one({'user_id': user_id}, {'$inc': {'likes_count': reaction_count}})
-            
-        # Update reactions in the database
-        for reaction in reactions:
-            if reaction.get('user', {}).get('is_bot'):
-                continue
-            reaction_user_id = reaction['user']['id']
-            if reaction['type'] == 'like':
-                user_collection.update_one({'user_id': reaction_user_id}, {'$inc': {'likes_count': 1}})
-            elif reaction['type'] == 'dislike':
-                user_collection.update_one({'user_id': reaction_user_id}, {'$inc': {'dislikes_count': 1}})
-
-  
-'''
