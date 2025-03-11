@@ -9,9 +9,18 @@ from middleware import keyboard
 from app import fsm, bot
 from app import main_base as base
 from tool import language_check, create_inlineKeyboard
+import os
+
+from moviepy.video.io.VideoFileClip import VideoFileClip
+from moviepy.video.fx import Crop
 
 middleware.start_draw_timer()
 middleware.end_draw_timer()
+
+TEMP_FOLDER = "temp_videos"
+if not os.path.exists(TEMP_FOLDER):
+    os.makedirs(TEMP_FOLDER)
+
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -392,12 +401,90 @@ def add_check_channel(message):
 	print(base.select_all(models.SubscribeChannel))
 
 
+@bot.message_handler(content_types=['text', 'video', 'document'], func=lambda message: True and message.text == language_check(message.chat.id)[1]['menu']['menu_buttons'][3])
+def create_video(message):
+	text = language_check(str(message.chat.id))
+	back_button = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+	back_button.row(text[1]['create_video']['back_in_menu'])
+	bot.send_message(message.chat.id, language_check(message.chat.id)[1]['create_video']['get_video'], reply_markup=back_button)
+
+
+@bot.message_handler(content_types=['video'], func=lambda message: True)
+def enter_video(message):
+	file_id = ''
+	file_type = ''
+	text = language_check(str(message.chat.id))[1]['draw']
+	back_button = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+	back_button.row(text['back_in_menu'])
+	tmp = fsm.get_state(message.chat.id)[1]
+	if message.content_type == 'video':
+		print("zaebuch")
+		bot.send_message(message.chat.id, language_check(message.chat.id)[1]['create_video']['wait_video'],
+						 reply_markup=back_button)
+		file_info = bot.get_file(message.video.file_id)
+		video_file = bot.download_file(file_info.file_path)
+
+		# Сохраняем видео
+		input_video_path = f'temp_{message.video.file_id}.mp4'
+		output_video_path = f'circle_{message.video.file_id}.mp4'
+
+		with open(input_video_path, 'wb') as new_file:
+			new_file.write(video_file)
+
+		try:
+			# Преобразуем видео в круг
+			clip = VideoFileClip(input_video_path)
+			# Например, обрезаем видео до квадрата
+			min_dimension = min(clip.size)
+			clip_cropped = clip.crop(x1=(clip.w - min_dimension) / 2,
+									 y1=(clip.h - min_dimension) / 2,
+									 width=min_dimension,
+									 height=min_dimension)
+			clip_cropped.write_videofile(output_video_path, codec='libx264')
+
+			# Отправляем обработанное видео обратно пользователю
+			with open(output_video_path, 'rb') as video:
+				bot.send_video(message.chat.id, video)
+		finally:
+			# Удаляем временные файлы
+			os.remove(input_video_path)
+			os.remove(output_video_path)
+	else:
+		print('puzda')
+		file_id = ''
+		file_type = 'text'
+
+
+def process_video(input_path, output_path):
+    # Загружаем видео
+    video = VideoFileClip(input_path)
+
+    # Обрезаем видео до квадратного формата
+    (w, h) = video.size
+    min_side = min(w, h)
+    cropped_video = Crop(video, width=min_side, height=min_side, x_center=w/2, y_center=h/2)
+
+    # Уменьшаем длительность до 60 секунд (если нужно)
+    if cropped_video.duration > 60:
+        cropped_video = cropped_video.subclip(0, 60)
+
+    # Сохраняем обработанное видео
+    cropped_video.write_videofile(output_path, codec='libx264')
+
+    # Закрываем видео
+    video.close()
+    cropped_video.close()
+
+
+
+
+
 if __name__ == '__main__':
 	bot.polling(none_stop=True)
 
 '''
 # Fetch reactions for the media message
-    chat_member = bot.get_chat_member(chat_id=message.chat.id, user_id=bot.id)
+    chat_member = bot.get_chat_member(chat_id=message1.chat.id, user_id=bot.id)
     reactions = chat_member.get('user', {}).get('is_bot') and bot.get_chat_member(chat_id=message.chat.id, user_id=user_id).get('user').get('is_bot')
     if reactions:
         reaction_count = len([reaction for reaction in reactions if reaction.get('user', {}).get('is_bot') == False and reaction['type'] in ['like', 'dislike']])
