@@ -1,5 +1,6 @@
 import telebot
 import config
+from telethon import TelegramClient
 from base import DataBase
 from fsm import FSM
 
@@ -12,3 +13,4 @@ tool_base = DataBase()
 post_base = DataBase()
 end_base = DataBase()
 fsm = FSM(fsm_base)
+client = TelegramClient('Random_Bot', config.api_id, config.api_hash)

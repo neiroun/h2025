@@ -1,3 +1,5 @@
 TOKEN = '7595969999:AAF5TYM-FgMIkp4_7eVswhv3vIVkICc1MNc'
 db_url = 'sqlite:///example.db'
 channel = '@hellomememe'
+api_id = '29946059'
+api_hash = 'ba32c3d7a9efe11973134a9fce5cd743'

@@ -10,6 +10,8 @@ from app import fsm, bot
 from app import main_base as base
 from tool import language_check, create_inlineKeyboard
 import os
+import asyncio
+import traceback
 
 from moviepy.editor import VideoFileClip
 from moviepy.video.fx import crop
@@ -37,18 +39,22 @@ def start(message):
 
 @bot.callback_query_handler(func=lambda call: True and call.data.split('_')[0] == 'geton')
 def get_on_draw(call):
+	print('get on')
 	try:
 		text = language_check(call.message.chat.id)[1]['draw']
-		tmp = middleware.new_player(call)
+		tmp = asyncio.run(middleware.new_player(call))
+		print(tmp)
 		if tmp[1] == 'not_subscribe':
 			bot.answer_callback_query(callback_query_id=call.id, show_alert=True,  text=text['not_subscribe'])
-		if tmp[0] == False:
+		if tmp[1] == 'n_posts_error':
+			bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=text['n_posts_error'])
+		if tmp[0] is False:
 			bot.answer_callback_query(callback_query_id=call.id, show_alert=True,  text=text['already_in'])
 		else:
 			bot.answer_callback_query(callback_query_id=call.id, show_alert=True,  text=text['got_on'])
 			bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id, inline_message_id=call.inline_message_id, reply_markup=create_inlineKeyboard({f"({tmp[1]}) {tmp[2]}":call.data}))
-	except:
-		pass
+	except Exception as e:
+		print(traceback.format_exc())
 
 
 @bot.message_handler(func=lambda message: True and message.text == language_check(message.chat.id)[1]['menu']['menu_buttons'][2])
@@ -116,12 +122,12 @@ def back(call):
 		bot.delete_message(call.message.chat.id, call.message.message_id)
 
 
-@bot.message_handler(func=lambda message: True and middleware.check_post(message.chat.id) != None and message.text == language_check(message.chat.id)[1]['draw']['draw_buttons'][-2])
+@bot.message_handler(func=lambda message: True and middleware.check_post(message.chat.id) != None and message.text == language_check(message.chat.id)[1]['draw']['draw_buttons'][-3])
 def submit(message):
 	text = language_check(str(message.chat.id))
 	bot.send_message(message.chat.id, text[1]['draw']['submit_text'], reply_markup=keyboard.get_menu_keyboard(message.chat.id))
 	tmp = base.get_one(models.DrawProgress, user_id=str(message.chat.id))
-	base.new(models.DrawNot, tmp.id, tmp.user_id, tmp.chanel_id, tmp.chanel_name, tmp.text, tmp.file_type, tmp.file_id, tmp.winers_count, tmp.post_time, tmp.end_time)
+	base.new(models.DrawNot, tmp.id, tmp.user_id, tmp.chanel_id, tmp.chanel_name, tmp.text, tmp.file_type, tmp.file_id, tmp.winers_count, tmp.n_posts, tmp.post_time, tmp.end_time)
 	base.delete(models.DrawProgress, user_id=(str(message.chat.id)))
 	base.delete(models.State, user_id=(str(message.chat.id)))
 
@@ -368,6 +374,25 @@ def change_text(message):
 @bot.message_handler(func=lambda message: True and fsm.get_state(message.chat.id)[0] == 'change_draw_text')
 def confirm_change_draw_text(message):
 	base.update(models.DrawProgress, {'text': message.text}, user_id=str(message.chat.id))
+	middleware.send_draw_info(message.chat.id)
+
+
+@bot.message_handler(func=lambda message: True and middleware.check_post(message.chat.id) != None and message.text == language_check(message.chat.id)[1]['draw']['draw_buttons'][8])
+def change_n_posts(message):
+	text = language_check(str(message.chat.id))[1]['draw']
+	fsm.set_state(message.chat.id, 'change_n_posts')
+	bot.send_message(message.chat.id, text['n_posts'], reply_markup=keyboard.back_button(message.chat.id))
+
+
+@bot.message_handler(func=lambda message : True and fsm.get_state(message.chat.id)[0] == 'change_n_posts')
+def confirm_change_n_posts(message):
+	text = language_check(str(message.chat.id))[1]['draw']
+	try:
+		print(int(message.text))
+	except:
+		bot.send_message(message.chat.id, text['not_int'])
+		return 'gg'
+	base.update(models.DrawProgress, {'n_posts': int(message.text)}, user_id=str(message.chat.id))
 	middleware.send_draw_info(message.chat.id)
 
 
