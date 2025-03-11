@@ -6,6 +6,7 @@ import keyboard
 from tool import language_check, create_inlineKeyboard
 from app import middleware_base, bot, post_base, end_base 
 from datetime import datetime
+from config import channel
 
 def check_user(user_id):
 	user = middleware_base.get_one(models.User, user_id=str(user_id))
@@ -17,7 +18,7 @@ def check_user(user_id):
 
 def create_draw_progress(user_id, tmp):
 	middleware_base.delete(models.DrawProgress, user_id=(str(user_id)))
-	middleware_base.new(models.DrawProgress, str(user_id), tmp['chanel_id'], tmp['chanel_name'], tmp['draw_text'], tmp['file_type'], tmp['file_id'], int(tmp['winers_count']), tmp['start_time'], tmp['end_time'])
+	middleware_base.new(models.DrawProgress, str(user_id), tmp['chanel_id'], tmp['chanel_name'], tmp['draw_text'], tmp['file_type'], tmp['file_id'], int(tmp['winers_count']), int(tmp['n_posts']),tmp['start_time'], tmp['end_time'])
 	middleware_base.delete(models.State, user_id=str(user_id))
 
 	return draw_info(user_id)
@@ -156,3 +157,17 @@ def new_player(call):
 	else:
 		return (False)
 
+
+def check_reactions(user_id, n_posts):
+	posts = bot.get_chat_history(channel, limit=n_posts)
+	reaction_results = list()
+
+	for post in posts:
+		if hasattr(post, 'reactions'):
+			user_reacted = any(user_id in reaction.users for reaction in post.reactions)
+			reaction_results.append({
+				'post_id': post.message_id,
+				'reacted': user_reacted
+			})
+
+	return reaction_results

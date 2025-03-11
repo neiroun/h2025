@@ -39,11 +39,12 @@ class DrawProgress(Base):
 	file_type = Column(String)
 	file_id = Column(String)
 	winers_count = Column(Integer)
+	n_posts = Column(Integer)
 	post_time = Column(String)
 	end_time = Column(String)
 
 
-	def __init__(self, user_id, chanel_id, chanel_name, text, file_type, file_id, winers_count, post_time, end_time):
+	def __init__(self, user_id, chanel_id, chanel_name, text, file_type, file_id, winers_count, n_posts ,post_time, end_time):
 		self.user_id = str(user_id)
 		self.chanel_id = str(chanel_id)
 		self.chanel_name = chanel_name
@@ -51,12 +52,13 @@ class DrawProgress(Base):
 		self.file_type = file_type
 		self.file_id = file_id
 		self.winers_count = winers_count
+		self.n_posts = n_posts
 		self.post_time = post_time
 		self.end_time = end_time
 
 
 	def __repr__(self):
-		return "<DrawProgress(id='%s', user_id='%s', chanel_id='%s', chanel_name='%s', text='%s', file_type='%s', file_id='%s', winers_count='%s', post_time='%s', end_time='%s')>" % (
+		return "<DrawProgress(id='%s', user_id='%s', chanel_id='%s', chanel_name='%s', text='%s', file_type='%s', file_id='%s', winers_count='%s', n_posts='%s', post_time='%s', end_time='%s')>" % (
 								self.id,
 								self.user_id,
 								self.chanel_id,
@@ -65,6 +67,7 @@ class DrawProgress(Base):
 								self.file_type,
 								self.file_id,
 								self.winers_count,
+								self.n_posts,
 								self.post_time,
 								self.end_time)
 
@@ -79,11 +82,12 @@ class DrawNot(Base):
 	file_type = Column(String)
 	file_id = Column(String)
 	winers_count = Column(Integer)
+	n_posts = Column(Integer)
 	post_time = Column(String)
 	end_time = Column(String)
 
 
-	def __init__(self, id, user_id, chanel_id, chanel_name, text, file_type, file_id, winers_count, post_time, end_time):
+	def __init__(self, id, user_id, chanel_id, chanel_name, text, file_type, file_id, winers_count, n_posts, post_time, end_time):
 		self.id = id
 		self.user_id = str(user_id)
 		self.chanel_id = str(chanel_id)
@@ -92,12 +96,13 @@ class DrawNot(Base):
 		self.file_type = file_type
 		self.file_id = file_id
 		self.winers_count = winers_count
+		self.n_posts = n_posts
 		self.post_time = post_time
 		self.end_time = end_time
 
 
 	def __repr__(self):
-		return "<notposted(id='%s', user_id='%s', chanel_id='%s', chanel_name='%s', text='%s', file_type='%s', file_id='%s', winers_count='%s', post_time='%s', end_time='%s')>" % (
+		return "<notposted(id='%s', user_id='%s', chanel_id='%s', chanel_name='%s', text='%s', file_type='%s', file_id='%s', winers_count='%s', n_posts='%s', post_time='%s', end_time='%s')>" % (
 								self.id,
 								self.user_id,
 								self.chanel_id,
@@ -106,6 +111,7 @@ class DrawNot(Base):
 								self.file_type,
 								self.file_id,
 								self.winers_count,
+								self.n_posts,
 								self.post_time,
 								self.end_time)
 
@@ -122,11 +128,12 @@ class Draw(Base):
 	file_type = Column(String)
 	file_id = Column(String)
 	winers_count = Column(Integer)
+	n_posts = Column(Integer)
 	post_time = Column(String)
 	end_time = Column(String)
 
 
-	def __init__(self, id, user_id, message_id, chanel_id, chanel_name, text, file_type, file_id, winers_count, post_time, end_time):
+	def __init__(self, id, user_id, message_id, chanel_id, chanel_name, text, file_type, file_id, winers_count, n_posts, post_time, end_time):
 		self.id = id
 		self.user_id = str(user_id)
 		self.message_id = str(message_id)
@@ -136,12 +143,13 @@ class Draw(Base):
 		self.file_type = file_type
 		self.file_id = file_id
 		self.winers_count = winers_count
+		self.n_posts = n_posts
 		self.post_time = post_time
 		self.end_time = end_time
 
 
 	def __repr__(self):
-		return "<DrawProgress(id='%s', user_id='%s', message_id='%s' chanel_id='%s', chanel_name='%s', text='%s', file_type='%s', file_id='%s', winers_count='%s', post_time='%s', end_time='%s')>" % (
+		return "<DrawProgress(id='%s', user_id='%s', message_id='%s' chanel_id='%s', chanel_name='%s', text='%s', file_type='%s', file_id='%s', winers_count='%s', n_posts='%s', post_time='%s', end_time='%s')>" % (
 								self.id,
 								self.user_id,
 								self.message_id,
@@ -151,6 +159,7 @@ class Draw(Base):
 								self.file_type,
 								self.file_id,
 								self.winers_count,
+								self.n_posts,
 								self.post_time,
 								self.end_time)
 

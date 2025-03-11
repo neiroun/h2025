@@ -19,7 +19,8 @@
             "Change photo/gif 🖼",
             "Сheck subscription ✅",
             "Publish 🎲",
-            "Back in menu ↩️"
+            "Back in menu ↩️",
+            "Indicate the number of reactions ❤\uFE0F"
         ],
         "chanel_id": "Enter the username of the channel where the giveaway will be published in @username format.  You must be the administrator of this channel and add bot to the administrators.\n If the channel is private, then you need to send the id of this channel to find out the id of the private channel, forward any post from this channel to the special bot @getmyid_bot, the bottom line is the response from the bot and will be the id of your private channel.  Forward this id to the bot",
         "chanel_id_check": "Enter the username of the channel for verification in @username format.\n \n If the channel is private, then you need to send the id of this channel to find out the id of the private channel, forward any post from this channel to the special bot @getmyid_bot, the bottom line is the response from the bot and will be the id of your private channel.  Forward this id to the bot.\n Indicate the link to this channel in the description so that the participants of the giveaway know which channels you need to subscribe",
@@ -29,6 +30,7 @@
         "file": "Send a picture or GIF (optional, if not needed, send any other message)",
         "winers_count": "Enter the number of winners",
         "not_int": "This is not a number",
+        "n_posts": "Enter the number of recent posts to check the reactions.",
         "post_time": "Enter the date and time of the start of the giveaway in the format: (year-month-day hours: minutes), for example 2020-10-25 21:05",
         "end_time": "Enter the date and time of the end of the giveaway in the format: (year-month-day hours: minutes), for example 2020-10-31 21:55",
         "over_time": "This time has already expired, enter the time that will be greater than the current moment",

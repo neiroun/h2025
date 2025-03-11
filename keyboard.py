@@ -15,7 +15,8 @@ def get_draw_keyboard(user_id):
 	draw_keyboard.row(buttons[0], buttons[1])
 	draw_keyboard.row(buttons[2], buttons[3])
 	draw_keyboard.row(buttons[4], buttons[5])
-	draw_keyboard.row(buttons[6], buttons[7])
+	draw_keyboard.row(buttons[6], buttons[8])
+	draw_keyboard.row(buttons[7])
 	return draw_keyboard
 	
 
