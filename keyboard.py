@@ -5,10 +5,10 @@ def get_menu_keyboard(user_id):
 	buttons = language_check(user_id)[1]['menu']['menu_buttons']
 	menu_keyboard = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
 	menu_keyboard.row(buttons[0], buttons[1])
-	menu_keyboard.row(buttons[2])
+	menu_keyboard.row(buttons[2], buttons[3])
 	return menu_keyboard
 
-	
+
 def get_draw_keyboard(user_id):
 	buttons = language_check(user_id)[1]['draw']['draw_buttons']
 	draw_keyboard = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
