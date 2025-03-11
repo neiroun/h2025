@@ -11,8 +11,8 @@ from app import main_base as base
 from tool import language_check, create_inlineKeyboard
 import os
 
-from moviepy.video.io.VideoFileClip import VideoFileClip
-from moviepy.video.fx import Crop
+from moviepy.editor import VideoFileClip
+from moviepy.video.fx import crop
 
 middleware.start_draw_timer()
 middleware.end_draw_timer()
@@ -480,7 +480,7 @@ def process_video(input_path, output_path):
     # Обрезаем видео до квадратного формата
     (w, h) = video.size
     min_side = min(w, h)
-    cropped_video = Crop(video, width=min_side, height=min_side, x_center=w/2, y_center=h/2)
+    cropped_video = crop(video, width=min_side, height=min_side, x_center=w/2, y_center=h/2)
 
     # Уменьшаем длительность до 60 секунд (если нужно)
     if cropped_video.duration > 60:
