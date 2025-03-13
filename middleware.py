@@ -132,7 +132,7 @@ def end_draw_timer():
                                 break
                             random_player = random.choice(players)
                             winners.append(random_player.user_name)
-                            bot.send_message(random_player.user_id, text="Поздравляем! Ты стал победителем в конкурсе в канале " + i.chanel_id)
+                            bot.send_message(random_player.user_id, text="Поздравляем!🎉 Ты стал победителем в конкурсе в канале " + i.chanel_id)
                             winers += f"<a href='tg://user?id={random_player.user_id}'>{random_player.user_name}</a>\n"
                             owin += f"<a href='tg://user?id={random_player.user_id}'>{random_player.user_name}</a>\n"
                             count += 1
