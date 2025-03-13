@@ -21,3 +21,5 @@
 RU.json,4\f\4f3ffce1dedd89a1b8e4e467c121f42c826d4963
 7
 tool.py,8\a\8a1011dd111bc491810b55f322e15bede2b73b16
+;
+winners.txt,4\2\4260c45b1c5bdab5cac307eb794c2afc5fca2366
