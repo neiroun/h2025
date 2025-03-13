@@ -1,13 +1,18 @@
+import queue
 import time
+import traceback
+
 import models
 import random
 import threading
 import keyboard
+import config
 import asyncio
 from tool import language_check, create_inlineKeyboard
-from app import middleware_base, bot, post_base, end_base, client
+from app import middleware_base, bot, post_base, end_base
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
+from telethon import TelegramClient
 from telethon.tl.types import PeerChannel
 
 
@@ -107,6 +112,11 @@ def start_draw_timer():
 
 def end_draw_timer():
     def end_timer():
+        with open('winners.txt', 'w', encoding='utf-8') as file:
+            file.write('Привет, мир!\n')
+            for i in end_base.select_all(models.DrawPlayer):
+                file.write('@' + end_base.select_all(models.DrawPlayer, user_name=i.user_name))
+
         while 1:
             for i in end_base.select_all(models.Draw):
                 count = 0
@@ -143,51 +153,46 @@ def end_draw_timer():
     rT.start()
 
 
-async def reconnect():
-    # Реализуйте повторное подключение
-    await client.connect()
-
-async def check_reactions(user_id, n_posts, channel_id):
-    print('check')
+async def check_reactions(user_id, n_posts):
     try:
-        messages = await client.get_messages(channel_id, limit=n_posts)
+        async with TelegramClient('new5', config.api_id, config.api_hash) as client:
+            print("Connected successfully")
+            entity = await client.get_entity('t.me/hallomememe')
+            total_reactions = 0
+            print("get_entity")
+            async for message in client.iter_messages(entity, limit=n_posts):
+                print("post checked")
+                if message.reactions:
+                    reactions = message.reactions
+                    for reaction in reactions.results:
+                        if reaction.user_id == user_id:
+                            total_reactions += 1
+            print("messages checked")
+            return total_reactions
     except Exception as e:
-        print('Connection lost; attempting to reconnect...')
-        await reconnect()
-        # Повторите попытку получить сообщения
-        messages = await client.get_messages(channel_id, limit=n_posts)
-
-    print(f'Messages fetched: {len(messages)}')  # Сколько сообщений вы получили
-    total_reactions = 0
-
-    for message in messages:
-        if message.reactions:
-            print(f'Message ID {message.id} has reactions')
-            user_reacted = any(reaction.user_id == user_id for reaction in message.reactions)
-            if user_reacted:
-                total_reactions += 1
-    print(f'Total reactions counted: {total_reactions}')  # Печатаем общее количество реакций
-    return total_reactions
+        print("Traceback with code: ", e)
 
 
-async def new_player(call):
+def new_player(call):
     id = int(call.data.split('_')[1])
     print(call.data.split('_'))
     tmp = middleware_base.get_one(models.Draw, id=id)
-    chanel = middleware_base.select_all(models.SubscribeChannel, draw_id=tmp.id)
-    status = ['left', 'kicked', 'restricted', 'member', 'admin', 'creator']
-    for i in chanel:
-        if bot.get_chat_member(chat_id=i.channel_id, user_id=call.from_user.id).status in status:
-            return 'not_subscribe'
+    try:
+        chanel = middleware_base.select_all(models.SubscribeChannel, draw_id=tmp.id)
+        status = ['left', 'kicked', 'restricted', 'member', 'admin', 'creator']
+        for i in chanel:
+            if bot.get_chat_member(chat_id=i.channel_id, user_id=call.from_user.id).status in status:
+                return 'not_subscribe'
+    except:
+        pass
 
     players = middleware_base.get_one(models.DrawPlayer, draw_id=str(tmp.id), user_id=str(call.from_user.id))
     if players is None:
-        print('check1111')
-        total_reactions = await check_reactions(call.from_user.id, tmp.n_posts, tmp.chanel_id)
-        print(total_reactions)
-        if total_reactions < tmp.n_posts:
-            print('error')
-            return 'n_posts_error'
+        # total_reactions = asyncio.run(check_reactions(call.from_user.id, tmp.n_posts))
+        # print("User reacted: ", total_reactions)
+        # if total_reactions < tmp.n_posts:
+        #     print('error')
+        #     return 'n_posts_error'
         middleware_base.new(models.DrawPlayer, tmp.id, str(call.from_user.id), str(call.from_user.username))
         tmz = middleware_base.select_all(models.DrawPlayer, draw_id=tmp.id)
         return len(tmz), language_check(tmp.user_id)[1]['draw']['play']

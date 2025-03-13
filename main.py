@@ -39,16 +39,15 @@ def start(message):
 
 @bot.callback_query_handler(func=lambda call: True and call.data.split('_')[0] == 'geton')
 def get_on_draw(call):
-	print('get on')
 	try:
 		text = language_check(call.message.chat.id)[1]['draw']
-		tmp = asyncio.run(middleware.new_player(call))
+		tmp = middleware.new_player(call)
 		print(tmp)
-		if tmp[1] == 'not_subscribe':
+		if tmp == 'not_subscribe':
 			bot.answer_callback_query(callback_query_id=call.id, show_alert=True,  text=text['not_subscribe'])
-		if tmp[1] == 'n_posts_error':
+		if tmp == 'n_posts_error':
 			bot.answer_callback_query(callback_query_id=call.id,show_alert=True, text=text['n_posts_error'])
-		if tmp[0] is False:
+		if tmp is False:
 			bot.answer_callback_query(callback_query_id=call.id, show_alert=True,  text=text['already_in'])
 		else:
 			bot.answer_callback_query(callback_query_id=call.id, show_alert=True,  text=text['got_on'])

@@ -1,10 +1,11 @@
 
-qpython:S117h"SRename this local variable "rT" to match the regular expression ^[_a-z][a-z0-9_]*$.(öÂø¯8¹ÅÏ·Ø2
-spython:S3776V"TRefactor this function to reduce its Cognitive Complexity from 16 to the 15 allowed.(£Á€8ºÅÏ·Ø2
-Mpython:S1481[")Remove the unused local variable "count".(óÿÑ—øÿÿÿÿ8ºÅÏ·Ø2
-rpython:S117"SRename this local variable "rT" to match the regular expression ^[_a-z][a-z0-9_]*$.(Õä±±8ºÅÏ·Ø2
-xpython:S3776l"TRefactor this function to reduce its Cognitive Complexity from 33 to the 15 allowed.(°–’Âıÿÿÿÿ8ºÅÏ·Ø2
-Dpython:S1481|"%Remove the unused local variable "x".(˜Å—8ºÅÏ·Ø2
-\python:S5754…"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8ºÅÏ·Ø2
-Jpython:S1481š"%Remove the unused local variable "e".(¼–¯¸ÿÿÿÿÿ8Â¥Ü·Ø2
-Kpython:S5806®"+Rename this variable; it shadows a builtin.(ƒ¾‹š8Â¥Ü·Ø2
+qpython:S117m"SRename this local variable "rT" to match the regular expression ^[_a-z][a-z0-9_]*$.(öÂø¯8Î¨ıôØ2
+spython:S3776["TRefactor this function to reduce its Cognitive Complexity from 16 to the 15 allowed.(£Á€8Ï¨ıôØ2
+Mpython:S1481`")Remove the unused local variable "count".(óÿÑ—øÿÿÿÿ8Ï¨ıôØ2
+rpython:S117˜"SRename this local variable "rT" to match the regular expression ^[_a-z][a-z0-9_]*$.(Õä±±8Ï¨ıôØ2
+xpython:S3776q"TRefactor this function to reduce its Cognitive Complexity from 35 to the 15 allowed.(°–’Âıÿÿÿÿ8Ï¨ıôØ2
+Epython:S1481†"%Remove the unused local variable "x".(˜Å—8Ï¨ıôØ2
+\python:S5754"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8Ï¨ıôØ2
+Kpython:S5806±"+Rename this variable; it shadows a builtin.(ƒ¾‹š8Ï¨ıôØ2
+\python:S5754º"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8Ï¨ıôØ2
+>python:S125¿"Remove this commented out code.(ÇãŸ8Ï¨ıôØ2
