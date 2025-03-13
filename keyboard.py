@@ -26,4 +26,11 @@ def back_button(user_id):
 	back_button.row(buttons)
 	return back_button
 
+def change_video(user_id):
+	buttons = language_check(user_id)[1]['create_video']['change_button']
+	change_button = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+	change_button.row(buttons[0], buttons[1])
+	change_button.row(buttons[2])
+	return change_button
+
 

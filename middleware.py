@@ -15,6 +15,9 @@ from concurrent.futures import ThreadPoolExecutor
 from telethon import TelegramClient
 from telethon.tl.types import PeerChannel
 
+from moviepy.editor import *
+from moviepy.video.fx import crop
+
 
 def check_user(user_id):
     user = middleware_base.get_one(models.User, user_id=str(user_id))
@@ -202,3 +205,61 @@ def new_player(call):
     else:
         print('bool')
         return False
+
+
+def convert_to_square(input_video_path, output_video_path, message):
+	# Prеобразование видео в видеокружок
+	input_video = VideoFileClip(f"{input_video_path}")
+	
+	w, h = input_video.size
+	circle_size = 360
+	aspect_ratio = float(w) / float(h)
+	
+	if w > h:
+		new_w = int(circle_size * aspect_ratio)
+		new_h = circle_size
+	else:
+		new_w = circle_size
+		new_h = int(circle_size / aspect_ratio)
+	
+	resized_video = input_video.resize((new_w, new_h))
+	output_video = resized_video.crop(x_center=resized_video.w / 2, y_center=resized_video.h / 2, width=circle_size,
+	                                  height=circle_size)
+	output_video.write_videofile(f"{output_video_path}", codec="libx264", audio_codec="aac", bitrate="5M")
+	
+	with open(f"{output_video_path}", "rb") as video:
+		bot.send_video_note(message.chat.id, video)
+
+
+def process_video(input_path, output_path):
+    # Загружаем видео
+    video = VideoFileClip(input_path)
+
+    # Обрезаем видео до квадратного формата
+    (w, h) = video.size
+    min_side = min(w, h)
+    cropped_video = crop(video, width=min_side, height=min_side, x_center=w/2, y_center=h/2)
+
+    # Уменьшаем длительность до 60 секунд (если нужно)
+    if cropped_video.duration > 60:
+        cropped_video = cropped_video.subclip(0, 60)
+
+    # Сохраняем обработанное видео
+    cropped_video.write_videofile(output_path, codec='libx264')
+
+    # Закрываем видео
+    video.close()
+    cropped_video.close()
+
+
+
+def delete_files_in_folder(folder_path):
+    for filename in os.listdir(folder_path):
+        file_path = os.path.join(folder_path, filename)
+        try:
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+        except Exception as e:
+            print(f'Ошибка при удалении файла {file_path}. {e}')
+
+

@@ -24,6 +24,8 @@ middleware.start_draw_timer()
 middleware.end_draw_timer()
 
 TEMP_FOLDER = "temp_videos"
+FILE_VIDEO_PATH = 'test'
+FLAG_PUBLISH_VIDEO = False
 if not os.path.exists(TEMP_FOLDER):
     os.makedirs(TEMP_FOLDER)
 
@@ -447,7 +449,8 @@ def add_check_channel(message):
     print(base.select_all(models.SubscribeChannel))
 
 
-@bot.message_handler(content_types=['text', 'video', 'document'], func=lambda message: True and message.text == language_check(message.chat.id)[1]['menu']['menu_buttons'][3])
+#### кнопка записать видео или перезаписать
+@bot.message_handler(content_types=['text', 'video', 'document'], func=lambda message: True and (message.text == language_check(message.chat.id)[1]['menu']['menu_buttons'][3] or message.text == language_check(message.chat.id)[1]["create_video"]["change_button"][1]))
 def create_video(message):
     text = language_check(str(message.chat.id))
     back_button = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -455,74 +458,57 @@ def create_video(message):
     bot.send_message(message.chat.id, language_check(message.chat.id)[1]['create_video']['get_video'], reply_markup=back_button)
 
 
-@bot.message_handler(content_types=['video'], func=lambda message: True)
+@bot.message_handler(content_types=['video'], func=lambda message: True) ### получить и отправить видос в лс
 def enter_video(message):
-    file_id = ''
-    file_type = ''
-    text = language_check(str(message.chat.id))[1]['draw']
-    back_button = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
-    back_button.row(text['back_in_menu'])
-    tmp = fsm.get_state(message.chat.id)[1]
-    if message.content_type == 'video':
-        print("zaebuch")
-        bot.send_message(message.chat.id, language_check(message.chat.id)[1]['create_video']['wait_video'],
-                         reply_markup=back_button)
-        file_info = bot.get_file(message.video.file_id)
-        video_file = bot.download_file(file_info.file_path)
+	global FILE_VIDEO_PATH
+	middleware.delete_files_in_folder('temp_videos')
+	file_id = ''
+	file_type = ''
+	text = language_check(str(message.chat.id))[1]['draw']
+	back_button = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+	back_button.row(text['back_in_menu'])
+	tmp = fsm.get_state(message.chat.id)[1]
+	if message.content_type == 'video':
+		print("zaebuch")
+		bot.send_message(message.chat.id, "Видео создается")
+		file_info = bot.get_file(message.video.file_id)
+		video_file = bot.download_file(file_info.file_path)
+		input_video_path = f'temp_videos/temp_{message.video.file_id}.mp4'
+		output_video_path = f'temp_videos/square_{message.video.file_id}.mp4'
+		with open(input_video_path, 'wb') as new_file:
+			new_file.write(video_file)
+		#add_watermark(input_video_path, input_video_path, 'apz.png')
+		middleware.convert_to_square(input_video_path, output_video_path, message)
+		bot.send_message(message.chat.id, language_check(message.chat.id)[1]['create_video']['change_action'],
+						 reply_markup=keyboard.change_video(message.chat.id))
+		os.remove(input_video_path)
+		FILE_VIDEO_PATH = output_video_path
+		#os.remove(output_video_path)
+	else:
+		print('puzda')
+		file_id = ''
+		file_type = 'text'
 
-        # Сохраняем видео
-        input_video_path = f'temp_{message.video.file_id}.mp4'
-        output_video_path = f'circle_{message.video.file_id}.mp4'
+####получить в какой канал отправлять
+@bot.message_handler(content_types=['text'], func=lambda message: True and message.text == language_check(message.chat.id)[1]['create_video']['change_button'][0])
+def publish_video_get_id(message):
+	text = language_check(str(message.chat.id))
+	back_button = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+	back_button.row(text[1]['create_video']['back_in_menu'])
+	bot.send_message(message.chat.id, language_check(message.chat.id)[1]['draw']['chanel_id'],
+	                 reply_markup=back_button)
 
-        with open(input_video_path, 'wb') as new_file:
-            new_file.write(video_file)
-
-        try:
-            # Преобразуем видео в круг
-            clip = VideoFileClip(input_video_path)
-            # Например, обрезаем видео до квадрата
-            min_dimension = min(clip.size)
-            clip_cropped = clip.crop(x1=(clip.w - min_dimension) / 2,
-                                     y1=(clip.h - min_dimension) / 2,
-                                     width=min_dimension,
-                                     height=min_dimension)
-            clip_cropped.write_videofile(output_video_path, codec='libx264')
-
-            # Отправляем обработанное видео обратно пользователю
-            with open(output_video_path, 'rb') as video:
-                bot.send_video(message.chat.id, video)
-        finally:
-            # Удаляем временные файлы
-            os.remove(input_video_path)
-            os.remove(output_video_path)
-    else:
-        print('puzda')
-        file_id = ''
-        file_type = 'text'
-
-
-def process_video(input_path, output_path):
-    # Загружаем видео
-    video = VideoFileClip(input_path)
-
-    # Обрезаем видео до квадратного формата
-    (w, h) = video.size
-    min_side = min(w, h)
-    cropped_video = crop(video, width=min_side, height=min_side, x_center=w/2, y_center=h/2)
-
-    # Уменьшаем длительность до 60 секунд (если нужно)
-    if cropped_video.duration > 60:
-        cropped_video = cropped_video.subclip(0, 60)
-
-    # Сохраняем обработанное видео
-    cropped_video.write_videofile(output_path, codec='libx264')
-
-    # Закрываем видео
-    video.close()
-    cropped_video.close()
-
-
-
+####публикация видео в канале
+@bot.message_handler(content_types=['text'], func=lambda message: True and "id @" in message.text)
+def publish_video(message):
+	text = language_check(str(message.chat.id))
+	print(message.text)
+	print(FILE_VIDEO_PATH)
+	with open(f"{FILE_VIDEO_PATH}", "rb") as video:
+		bot.send_video_note(str(message.text).replace('id ', ''), video)
+	os.remove(f"{FILE_VIDEO_PATH}")
+	bot.send_message(message.chat.id, language_check(message.chat.id)[1]['menu']['welcome_text'],
+	                 reply_markup=keyboard.get_menu_keyboard(message.chat.id))
 
 
 if __name__ == '__main__':

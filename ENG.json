@@ -6,7 +6,8 @@
             "My giveaways 🎉",
             "Сменить язык 🇷🇺",
             "Create a video message \uD83C\uDFA5"
-        ]
+        ],
+        "notes_text": "Select the next action"
     },
     "draw": {
         "back_in_menu": "Back in menu ↩️",
@@ -68,5 +69,6 @@
         "over_time_text": "Time of end:",
         "next": "Next",
         "back": "Back"
-    }
+    },
+    "create_video": {"get_video": "Send video in format .mp4", "back_in_menu": "Back in menu ↩️", "wait_video": "Video is being created", "change_action":"Video ready \n \n Publish video to channel?", "change_button": ["Publish", "Overwrite", "Back in menu ↩️"]}
 }
