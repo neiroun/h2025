@@ -126,11 +126,13 @@ def end_draw_timer():
                     else:
                         winers = f"{i.text}\n*****\n{text['winers']}\n"
                         owin = f"{text['winers']}\n"
+                        winners = list()
                         for x in range(int(i.winers_count)):
                             if count >= len(players):
                                 break
                             random_player = random.choice(players)
-                            bot.send_message(random_player.user_id, text="Поздравляем! Ты стал победителем в розыгрыше от @" + i.chanel_id)
+                            winners.append(random_player.user_name)
+                            bot.send_message(random_player.user_id, text="Поздравляем! Ты стал победителем в конкурсе в канале " + i.chanel_id)
                             winers += f"<a href='tg://user?id={random_player.user_id}'>{random_player.user_name}</a>\n"
                             owin += f"<a href='tg://user?id={random_player.user_id}'>{random_player.user_name}</a>\n"
                             count += 1
@@ -140,7 +142,11 @@ def end_draw_timer():
                         end_base.delete(models.Draw, id = i.id)
                         bot.send_message(i.chanel_id, text['failed_post'])
                         return 'gg'
-
+                    with open('winners.txt', 'w', encoding='utf-8') as file:
+                        for winner in winners:
+                            file.write('@' + winner)
+                    with open('winners.txt', 'rb') as f:
+                        bot.send_document(i.user_id, f)
                     bot.send_message(i.user_id, f"{text['your_draw_over']}\n{owin}", parse_mode='HTML')
                     end_base.delete(models.Draw, id = i.id)
                     time.sleep(1)
