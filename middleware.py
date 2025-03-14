@@ -166,7 +166,7 @@ async def check_reactions(user_id, n_posts):
             print("get_entity")
 
             async for message in client.get_chat_history(entity.id, limit=n_posts):
-                print("post checked " + user_id)
+                print("post checked " + str(user_id))
                 # Если у сообщения есть реакции, проверяем их
                 if message.reactions:
                     total_reactions += 1
@@ -179,7 +179,7 @@ async def check_reactions(user_id, n_posts):
             print("messages checked")
             return total_reactions
     except Exception as e:
-        print("Traceback with code: ", e)
+        print("Traceback with code: ", traceback.format_exc())
 
 
 def new_player(call):
