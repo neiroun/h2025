@@ -1,49 +1,52 @@
 
-gpython:S5797,"HReplace this expression; used as a condition it will always be constant.(—Â¾Æ8üúÇ¶Ø2
-lpython:S5797?"HReplace this expression; used as a condition it will always be constant.(Î¥ŸÕúÿÿÿÿ8üúÇ¶Ø2
-lpython:S5797K"HReplace this expression; used as a condition it will always be constant.(÷íòºüÿÿÿÿ8üúÇ¶Ø2
-gpython:S5797S"HReplace this expression; used as a condition it will always be constant.(¹ëÇ±8üúÇ¶Ø2
-lpython:S5797Y"HReplace this expression; used as a condition it will always be constant.(ºøä¡şÿÿÿÿ8üúÇ¶Ø2
-lpython:S5797_"HReplace this expression; used as a condition it will always be constant.(…ñ¨Õúÿÿÿÿ8üúÇ¶Ø2
-lpython:S5797o"HReplace this expression; used as a condition it will always be constant.(Óë¥·úÿÿÿÿ8üúÇ¶Ø2
-gpython:S5797€"HReplace this expression; used as a condition it will always be constant.(ÿ€·8üúÇ¶Ø2
-mpython:S5797Š"HReplace this expression; used as a condition it will always be constant.(ÔµÆÉıÿÿÿÿ8üúÇ¶Ø2
-hpython:S5797•"HReplace this expression; used as a condition it will always be constant.(“ØÁâ8üúÇ¶Ø2
-hpython:S5797©"HReplace this expression; used as a condition it will always be constant.(óõº8üúÇ¶Ø2
-mpython:S5797³"HReplace this expression; used as a condition it will always be constant.(šÇŞúşÿÿÿÿ8üúÇ¶Ø2
-mpython:S5797É"HReplace this expression; used as a condition it will always be constant.(°ÏÏõÿÿÿÿÿ8üúÇ¶Ø2
-hpython:S5797Û"HReplace this expression; used as a condition it will always be constant.(ó¾Çì8üúÇ¶Ø2
-hpython:S5797î"HReplace this expression; used as a condition it will always be constant.(Ö¼­¸8üúÇ¶Ø2
-gpython:S5797†"HReplace this expression; used as a condition it will always be constant.(¹¢ö98üúÇ¶Ø2
-mpython:S5797¥"HReplace this expression; used as a condition it will always be constant.(”¿Îÿÿÿÿÿ8üúÇ¶Ø2
-mpython:S5797¬"HReplace this expression; used as a condition it will always be constant.(…ô¶Œøÿÿÿÿ8üúÇ¶Ø2
-hpython:S5797Â"HReplace this expression; used as a condition it will always be constant.(ç™ÃØ8üúÇ¶Ø2
-mpython:S5797É"HReplace this expression; used as a condition it will always be constant.(×½ìúÿÿÿÿ8üúÇ¶Ø2
-mpython:S5797ß"HReplace this expression; used as a condition it will always be constant.(µ’™ÿÿÿÿÿ8üúÇ¶Ø2
-mpython:S5797æ"HReplace this expression; used as a condition it will always be constant.(ÎìÓªıÿÿÿÿ8üúÇ¶Ø2
-hpython:S5797ò"HReplace this expression; used as a condition it will always be constant.(²÷ÈÓ8üúÇ¶Ø2
-mpython:S5797ù"HReplace this expression; used as a condition it will always be constant.(¨’Æğÿÿÿÿÿ8üúÇ¶Ø2
-mpython:S5797ÿ"HReplace this expression; used as a condition it will always be constant.(’ÅÏÿÿÿÿÿ8üúÇ¶Ø2
-mpython:S5797†"HReplace this expression; used as a condition it will always be constant.(‚ØÔÅıÿÿÿÿ8üúÇ¶Ø2
-hpython:S5797’"HReplace this expression; used as a condition it will always be constant.(éùÜç8ıúÇ¶Ø2
-mpython:S5797™"HReplace this expression; used as a condition it will always be constant.(¯ä›íúÿÿÿÿ8ıúÇ¶Ø2
-mpython:S5797ª"HReplace this expression; used as a condition it will always be constant.(ö‘¼üÿÿÿÿ8ıúÇ¶Ø2
-hpython:S5797±"HReplace this expression; used as a condition it will always be constant.(«›ğù8ıúÇ¶Ø2
-mpython:S5797Â"HReplace this expression; used as a condition it will always be constant.(Ä©ëåÿÿÿÿÿ8ıúÇ¶Ø2
-kpython:S2208"GImport only needed names or import the module and then use its members.(İ¬™‘ûÿÿÿÿ8ÁùûùØ2
-Ipython:S1481;"%Remove the unused local variable "e".(¼–¯¸ÿÿÿÿÿ8ıúÇ¶Ø2
-[python:S5754j"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8ıúÇ¶Ø2
-[python:S5754{"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8ıúÇ¶Ø2
-\python:S5754¢"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8ıúÇ¶Ø2
-\python:S5754Î"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8ıúÇ¶Ø2
-\python:S5754à"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8ıúÇ¶Ø2
-\python:S5754ó"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8ıúÇ¶Ø2
-\python:S5754‹"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8ıúÇ¶Ø2
-\python:S5754±"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8ıúÇ¶Ø2
-\python:S5754Î"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8ıúÇ¶Ø2
-\python:S5754ê"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8ıúÇ¶Ø2
-\python:S5754‹"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8ıúÇ¶Ø2
-\python:S5754¹"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8ıúÇ¶Ø2
-Lpython:S1481Í"-Remove the unused local variable "file_type".(¨‡‰j8ıúÇ¶Ø2
-Gpython:S1481Ñ"'Remove the unused local variable "tmp".(«ı„8ıúÇ¶Ø2
-Ppython:S1481Ì"+Remove the unused local variable "file_id".(õÑü¬ûÿÿÿÿ8ıúÇ¶Ø2
+gpython:S5797."HReplace this expression; used as a condition it will always be constant.(—Â¾Æ8í©”œÙ2
+lpython:S5797A"HReplace this expression; used as a condition it will always be constant.(Î¥ŸÕúÿÿÿÿ8í©”œÙ2
+lpython:S5797M"HReplace this expression; used as a condition it will always be constant.(÷íòºüÿÿÿÿ8í©”œÙ2
+gpython:S5797U"HReplace this expression; used as a condition it will always be constant.(¹ëÇ±8í©”œÙ2
+lpython:S5797["HReplace this expression; used as a condition it will always be constant.(ºøä¡şÿÿÿÿ8í©”œÙ2
+lpython:S5797a"HReplace this expression; used as a condition it will always be constant.(…ñ¨Õúÿÿÿÿ8í©”œÙ2
+lpython:S5797q"HReplace this expression; used as a condition it will always be constant.(Óë¥·úÿÿÿÿ8í©”œÙ2
+gpython:S5797‚"HReplace this expression; used as a condition it will always be constant.(ÿ€·8í©”œÙ2
+mpython:S5797Œ"HReplace this expression; used as a condition it will always be constant.(ÔµÆÉıÿÿÿÿ8í©”œÙ2
+hpython:S5797—"HReplace this expression; used as a condition it will always be constant.(“ØÁâ8í©”œÙ2
+hpython:S5797«"HReplace this expression; used as a condition it will always be constant.(óõº8í©”œÙ2
+mpython:S5797µ"HReplace this expression; used as a condition it will always be constant.(šÇŞúşÿÿÿÿ8í©”œÙ2
+mpython:S5797Ë"HReplace this expression; used as a condition it will always be constant.(°ÏÏõÿÿÿÿÿ8í©”œÙ2
+hpython:S5797İ"HReplace this expression; used as a condition it will always be constant.(ó¾Çì8í©”œÙ2
+hpython:S5797ğ"HReplace this expression; used as a condition it will always be constant.(Ö¼­¸8í©”œÙ2
+gpython:S5797ˆ"HReplace this expression; used as a condition it will always be constant.(¹¢ö98í©”œÙ2
+mpython:S5797§"HReplace this expression; used as a condition it will always be constant.(”¿Îÿÿÿÿÿ8í©”œÙ2
+mpython:S5797®"HReplace this expression; used as a condition it will always be constant.(…ô¶Œøÿÿÿÿ8î©”œÙ2
+hpython:S5797Ä"HReplace this expression; used as a condition it will always be constant.(ç™ÃØ8î©”œÙ2
+mpython:S5797Ë"HReplace this expression; used as a condition it will always be constant.(×½ìúÿÿÿÿ8î©”œÙ2
+mpython:S5797á"HReplace this expression; used as a condition it will always be constant.(µ’™ÿÿÿÿÿ8î©”œÙ2
+mpython:S5797è"HReplace this expression; used as a condition it will always be constant.(ÎìÓªıÿÿÿÿ8î©”œÙ2
+hpython:S5797ô"HReplace this expression; used as a condition it will always be constant.(²÷ÈÓ8î©”œÙ2
+mpython:S5797û"HReplace this expression; used as a condition it will always be constant.(¨’Æğÿÿÿÿÿ8î©”œÙ2
+mpython:S5797"HReplace this expression; used as a condition it will always be constant.(’ÅÏÿÿÿÿÿ8î©”œÙ2
+mpython:S5797ˆ"HReplace this expression; used as a condition it will always be constant.(‚ØÔÅıÿÿÿÿ8î©”œÙ2
+hpython:S5797”"HReplace this expression; used as a condition it will always be constant.(éùÜç8î©”œÙ2
+mpython:S5797›"HReplace this expression; used as a condition it will always be constant.(¯ä›íúÿÿÿÿ8î©”œÙ2
+mpython:S5797¬"HReplace this expression; used as a condition it will always be constant.(ö‘¼üÿÿÿÿ8î©”œÙ2
+hpython:S5797³"HReplace this expression; used as a condition it will always be constant.(«›ğù8î©”œÙ2
+mpython:S5797Å"HReplace this expression; used as a condition it will always be constant.(èáèÑüÿÿÿÿ8î©”œÙ2
+hpython:S5797í"HReplace this expression; used as a condition it will always be constant.(Õ‡²º8î©”œÙ2
+hpython:S5797÷"HReplace this expression; used as a condition it will always be constant.(á“×ş8î©”œÙ2
+kpython:S2208"GImport only needed names or import the module and then use its members.(İ¬™‘ûÿÿÿÿ8î©”œÙ2
+Ipython:S1481="%Remove the unused local variable "e".(¼–¯¸ÿÿÿÿÿ8î©”œÙ2
+[python:S5754l"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8î©”œÙ2
+[python:S5754}"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8î©”œÙ2
+\python:S5754¤"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8î©”œÙ2
+\python:S5754Ğ"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8î©”œÙ2
+\python:S5754â"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8î©”œÙ2
+\python:S5754õ"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8î©”œÙ2
+\python:S5754"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8î©”œÙ2
+\python:S5754³"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8î©”œÙ2
+\python:S5754Ğ"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8î©”œÙ2
+\python:S5754ì"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8î©”œÙ2
+\python:S5754"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8î©”œÙ2
+\python:S5754»"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8î©”œÙ2
+Gpython:S1481Ö"'Remove the unused local variable "tmp".(«ı„8î©”œÙ2
+Ppython:S1481Ñ"+Remove the unused local variable "file_id".(õÑü¬ûÿÿÿÿ8î©”œÙ2
+Lpython:S1481Ò"-Remove the unused local variable "file_type".(¨‡‰j8î©”œÙ2
+Hpython:S1481ù"(Remove the unused local variable "text".(üêâ‡8î©”œÙ2

@@ -208,27 +208,27 @@ def new_player(call):
 
 
 def convert_to_square(input_video_path, output_video_path, message):
-	# Prеобразование видео в видеокружок
-	input_video = VideoFileClip(f"{input_video_path}")
-	
-	w, h = input_video.size
-	circle_size = 360
-	aspect_ratio = float(w) / float(h)
-	
-	if w > h:
-		new_w = int(circle_size * aspect_ratio)
-		new_h = circle_size
-	else:
-		new_w = circle_size
-		new_h = int(circle_size / aspect_ratio)
-	
-	resized_video = input_video.resize((new_w, new_h))
-	output_video = resized_video.crop(x_center=resized_video.w / 2, y_center=resized_video.h / 2, width=circle_size,
-	                                  height=circle_size)
-	output_video.write_videofile(f"{output_video_path}", codec="libx264", audio_codec="aac", bitrate="5M")
-	
-	with open(f"{output_video_path}", "rb") as video:
-		bot.send_video_note(message.chat.id, video)
+    # Prеобразование видео в видеокружок
+    input_video = VideoFileClip(f"{input_video_path}")
+
+    w, h = input_video.size
+    circle_size = 360
+    aspect_ratio = float(w) / float(h)
+
+    if w > h:
+        new_w = int(circle_size * aspect_ratio)
+        new_h = circle_size
+    else:
+        new_w = circle_size
+        new_h = int(circle_size / aspect_ratio)
+
+    resized_video = input_video.resize((new_w, new_h))
+    output_video = resized_video.crop(x_center=resized_video.w / 2, y_center=resized_video.h / 2, width=circle_size,
+                                      height=circle_size)
+    output_video.write_videofile(f"{output_video_path}", codec="libx264", audio_codec="aac", bitrate="5M")
+
+    with open(f"{output_video_path}", "rb") as video:
+        bot.send_video_note(message.chat.id, video)
 
 
 def process_video(input_path, output_path):

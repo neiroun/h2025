@@ -460,55 +460,56 @@ def create_video(message):
 
 @bot.message_handler(content_types=['video'], func=lambda message: True) ### получить и отправить видос в лс
 def enter_video(message):
-	global FILE_VIDEO_PATH
-	middleware.delete_files_in_folder('temp_videos')
-	file_id = ''
-	file_type = ''
-	text = language_check(str(message.chat.id))[1]['draw']
-	back_button = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
-	back_button.row(text['back_in_menu'])
-	tmp = fsm.get_state(message.chat.id)[1]
-	if message.content_type == 'video':
-		print("zaebuch")
-		bot.send_message(message.chat.id, "Видео создается")
-		file_info = bot.get_file(message.video.file_id)
-		video_file = bot.download_file(file_info.file_path)
-		input_video_path = f'temp_videos/temp_{message.video.file_id}.mp4'
-		output_video_path = f'temp_videos/square_{message.video.file_id}.mp4'
-		with open(input_video_path, 'wb') as new_file:
-			new_file.write(video_file)
-		#add_watermark(input_video_path, input_video_path, 'apz.png')
-		middleware.convert_to_square(input_video_path, output_video_path, message)
-		bot.send_message(message.chat.id, language_check(message.chat.id)[1]['create_video']['change_action'],
-						 reply_markup=keyboard.change_video(message.chat.id))
-		os.remove(input_video_path)
-		FILE_VIDEO_PATH = output_video_path
-		#os.remove(output_video_path)
-	else:
-		print('puzda')
-		file_id = ''
-		file_type = 'text'
+    global FILE_VIDEO_PATH
+    middleware.delete_files_in_folder('temp_videos')
+    file_id = ''
+    file_type = ''
+    text = language_check(str(message.chat.id))[1]['draw']
+    back_button = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    back_button.row(text['back_in_menu'])
+    tmp = fsm.get_state(message.chat.id)[1]
+    if message.content_type == 'video':
+        print("zaebuch")
+        bot.send_message(message.chat.id, "Видео создается")
+        file_info = bot.get_file(message.video.file_id)
+        video_file = bot.download_file(file_info.file_path)
+        input_video_path = f'temp_videos/temp_{message.video.file_id}.mp4'
+        output_video_path = f'temp_videos/square_{message.video.file_id}.mp4'
+        with open(input_video_path, 'wb') as new_file:
+            new_file.write(video_file)
+        #add_watermark(input_video_path, input_video_path, 'apz.png')
+        middleware.convert_to_square(input_video_path, output_video_path, message)
+        bot.send_message(message.chat.id, language_check(message.chat.id)[1]['create_video']['change_action'],
+                         reply_markup=keyboard.change_video(message.chat.id))
+        os.remove(input_video_path)
+        FILE_VIDEO_PATH = output_video_path
+        #os.remove(output_video_path)
+    else:
+        print('puzda')
+        file_id = ''
+        file_type = 'text'
 
 ####получить в какой канал отправлять
 @bot.message_handler(content_types=['text'], func=lambda message: True and message.text == language_check(message.chat.id)[1]['create_video']['change_button'][0])
 def publish_video_get_id(message):
-	text = language_check(str(message.chat.id))
-	back_button = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
-	back_button.row(text[1]['create_video']['back_in_menu'])
-	bot.send_message(message.chat.id, language_check(message.chat.id)[1]['draw']['chanel_id'],
-	                 reply_markup=back_button)
+    text = language_check(str(message.chat.id))
+    back_button = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    back_button.row(text[1]['create_video']['back_in_menu'])
+    bot.send_message(message.chat.id, language_check(message.chat.id)[1]['draw']['chanel_id'], reply_markup=back_button)
+    fsm.set_state(message.chat.id, 'publish_video')
+
 
 ####публикация видео в канале
-@bot.message_handler(content_types=['text'], func=lambda message: True and "id @" in message.text)
+@bot.message_handler(content_types=['text'], func=lambda message: True and fsm.get_state(message.chat.id)[0] == 'publish_video')
 def publish_video(message):
-	text = language_check(str(message.chat.id))
-	print(message.text)
-	print(FILE_VIDEO_PATH)
-	with open(f"{FILE_VIDEO_PATH}", "rb") as video:
-		bot.send_video_note(str(message.text).replace('id ', ''), video)
-	os.remove(f"{FILE_VIDEO_PATH}")
-	bot.send_message(message.chat.id, language_check(message.chat.id)[1]['menu']['welcome_text'],
-	                 reply_markup=keyboard.get_menu_keyboard(message.chat.id))
+    text = language_check(str(message.chat.id))
+    print(message.text)
+    print(FILE_VIDEO_PATH)
+    with open(f"{FILE_VIDEO_PATH}", "rb") as video:
+        bot.send_video_note(message.text, video)
+    os.remove(f"{FILE_VIDEO_PATH}")
+    bot.send_message(message.chat.id, language_check(message.chat.id)[1]['menu']['welcome_text'],
+                     reply_markup=keyboard.get_menu_keyboard(message.chat.id))
 
 
 if __name__ == '__main__':
