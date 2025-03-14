@@ -167,7 +167,7 @@ async def check_reactions(user_id, n_posts):
 
             async for message in client.get_chat_history(entity.id, limit=n_posts):
                 print("post checked " + str(user_id))
-                # Если у сообщения есть реакции, проверяем их
+                # Если у сообщения есть реакции пользователя, проверяем их
                 if message.reactions:
                     total_reactions += 1
                     # for reaction in message.reactions:  # reaction_type - это тип реакции
@@ -207,6 +207,7 @@ def new_player(call):
         return len(tmz), language_check(tmp.user_id)[1]['draw']['play']
     else:
         print('bool')
+        middleware_base.delete(models.DrawPlayer, draw_id=tmp.id, user_id=call.from_user.id)
         return False
 
 
