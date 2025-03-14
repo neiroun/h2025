@@ -269,6 +269,24 @@ def add_watermark(input_video_path, output_video_path, watermark_path):
 	watermark = watermark.set_duration(video.duration)
 
 	# Устанавливаем положение водяного знака (например, нижний правый угол)
+	watermark = watermark.set_position(("center", "center")).set_opacity(0.5)
+
+	# Создаем новое видео с водяным знаком
+	result = CompositeVideoClip([video, watermark])
+	result.write_videofile(output_video_path, codec='libx264')
+	
+
+def add_frame(input_video_path, output_video_path, watermark_path):
+	# Загружаем оригинальное видео
+	video = VideoFileClip(input_video_path)
+
+	# Загружаем изображение водяного знака
+	watermark = ImageClip(watermark_path)
+
+	# Устанавливаем продолжительность водяного знака
+	watermark = watermark.set_duration(video.duration)
+
+	# Устанавливаем положение водяного знака (например, нижний правый угол)
 	watermark = watermark.set_position(("center", "center")).set_opacity(1)
 
 	# Создаем новое видео с водяным знаком

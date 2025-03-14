@@ -25,6 +25,8 @@ middleware.end_draw_timer()
 
 TEMP_FOLDER = "temp_videos"
 FILE_VIDEO_PATH = 'test'
+input_video_path = ''
+output_video_path = ''
 FLAG_PUBLISH_VIDEO = False
 if not os.path.exists(TEMP_FOLDER):
     os.makedirs(TEMP_FOLDER)
@@ -460,34 +462,47 @@ def create_video(message):
 
 @bot.message_handler(content_types=['video'], func=lambda message: True) ### получить и отправить видос в лс
 def enter_video(message):
-	global FILE_VIDEO_PATH
-	middleware.delete_files_in_folder('temp_videos')
-	file_id = ''
-	file_type = ''
+	global FILE_VIDEO_PATH, input_video_path, output_video_path
+	
 	text = language_check(str(message.chat.id))[1]['draw']
 	back_button = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
 	back_button.row(text['back_in_menu'])
 	tmp = fsm.get_state(message.chat.id)[1]
 	if message.content_type == 'video':
 		print("zaebuch")
-		bot.send_message(message.chat.id, "Видео создается")
+		#bot.send_message(message.chat.id, "Видео создается")
 		file_info = bot.get_file(message.video.file_id)
 		video_file = bot.download_file(file_info.file_path)
 		input_video_path = f'temp_videos/temp_{message.video.file_id}.mp4'
 		output_video_path = f'temp_videos/square_{message.video.file_id}.mp4'
 		with open(input_video_path, 'wb') as new_file:
 			new_file.write(video_file)
-		middleware.add_watermark(input_video_path, input_video_path, 'cirlce.png')
-		middleware.convert_to_square(input_video_path, output_video_path, message)
-		bot.send_message(message.chat.id, language_check(message.chat.id)[1]['create_video']['change_action'],
-						 reply_markup=keyboard.change_video(message.chat.id))
-		os.remove(input_video_path)
+		# middleware.add_watermark(input_video_path, input_video_path, 'cirlce.png')
+		# middleware.convert_to_square(input_video_path, output_video_path, message)
+		bot.send_message(message.chat.id, language_check(message.chat.id)[1]['create_video']['change_filter'],
+						 reply_markup=keyboard.change_filter(message.chat.id))
+		# os.remove(input_video_path)
 		FILE_VIDEO_PATH = output_video_path
 		#os.remove(output_video_path)
 	else:
 		print('puzda')
 		file_id = ''
 		file_type = 'text'
+		
+@bot.message_handler(content_types=['text'], func=lambda message: True and message.text in language_check(message.chat.id)[1]['create_video']['filter']) ### получить и отправить видос в лс
+def enter_video(message):
+	global input_video_path, output_video_path
+	print("vse zaecich")
+	bot.send_message(message.chat.id, "Видео создается")
+	if message.text == language_check(message.chat.id)[1]['create_video']['filter'][0]:
+		middleware.add_watermark(input_video_path, input_video_path, 'apz.png')
+	elif message.text == language_check(message.chat.id)[1]['create_video']['filter'][1]:
+		middleware.add_frame(input_video_path, input_video_path, 'apz2.png')
+	middleware.convert_to_square(input_video_path, output_video_path, message)
+	bot.send_message(message.chat.id, language_check(message.chat.id)[1]['create_video']['change_action'],
+	                 reply_markup=keyboard.change_video(message.chat.id))
+	
+
 
 ####получить в какой канал отправлять
 @bot.message_handler(content_types=['text'], func=lambda message: True and message.text == language_check(message.chat.id)[1]['create_video']['change_button'][0])
@@ -503,35 +518,14 @@ def publish_video_get_id(message):
 @bot.message_handler(content_types=['text'], func=lambda message: True and fsm.get_state(message.chat.id)[0] == 'publish_video')
 def publish_video(message):
     text = language_check(str(message.chat.id))
-    print(message.text)
-    print(FILE_VIDEO_PATH)
     with open(f"{FILE_VIDEO_PATH}", "rb") as video:
         bot.send_video_note(message.text, video)
     os.remove(f"{FILE_VIDEO_PATH}")
     bot.send_message(message.chat.id, language_check(message.chat.id)[1]['menu']['welcome_text'],
                      reply_markup=keyboard.get_menu_keyboard(message.chat.id))
+    middleware.delete_files_in_folder('temp_videos')
 
 
 if __name__ == '__main__':
     bot.polling(none_stop=True)
 
-'''
-# Fetch reactions for the media message
-    chat_member = bot.get_chat_member(chat_id=message1.chat.id, user_id=bot.id)
-    reactions = chat_member.get('user', {}).get('is_bot') and bot.get_chat_member(chat_id=message.chat.id, user_id=user_id).get('user').get('is_bot')
-    if reactions:
-        reaction_count = len([reaction for reaction in reactions if reaction.get('user', {}).get('is_bot') == False and reaction['type'] in ['like', 'dislike']])
-        user_collection.update_one({'user_id': user_id}, {'$inc': {'likes_count': reaction_count}})
-            
-        # Update reactions in the database
-        for reaction in reactions:
-            if reaction.get('user', {}).get('is_bot'):
-                continue
-            reaction_user_id = reaction['user']['id']
-            if reaction['type'] == 'like':
-                user_collection.update_one({'user_id': reaction_user_id}, {'$inc': {'likes_count': 1}})
-            elif reaction['type'] == 'dislike':
-                user_collection.update_one({'user_id': reaction_user_id}, {'$inc': {'dislikes_count': 1}})
-
-  
-'''
