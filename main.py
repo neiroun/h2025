@@ -57,7 +57,7 @@ def get_on_draw(call):
             bot.answer_callback_query(callback_query_id=call.id, show_alert=True,  text=text['already_in'])
         else:
             bot.answer_callback_query(callback_query_id=call.id, show_alert=True,  text=text['got_on'])
-            bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id, inline_message_id=call.inline_message_id, reply_markup=create_inlineKeyboard({f"({tmp[1]}) {tmp[2]}":call.data}))
+            #bot.edit_message_reply_markup(chat_id=call.message.chat.id, message_id=call.message.message_id, inline_message_id=call.inline_message_id, reply_markup=create_inlineKeyboard({f"({tmp[1]}) {tmp[2]}":call.data}))
     except Exception as e:
         print(traceback.format_exc())
 

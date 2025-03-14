@@ -1,12 +1,13 @@
 
-kpython:S2208"GImport only needed names or import the module and then use its members.(İ¬™‘ûÿÿÿÿ8Øóù›Ù2
-qpython:S117p"SRename this local variable "rT" to match the regular expression ^[_a-z][a-z0-9_]*$.(öÂø¯8Ùóù›Ù2
-spython:S3776^"TRefactor this function to reduce its Cognitive Complexity from 16 to the 15 allowed.(£Á€8Ùóù›Ù2
-Mpython:S1481c")Remove the unused local variable "count".(óÿÑ—øÿÿÿÿ8Ùóù›Ù2
-rpython:S117"SRename this local variable "rT" to match the regular expression ^[_a-z][a-z0-9_]*$.(Õä±±8Ùóù›Ù2
-xpython:S3776t"TRefactor this function to reduce its Cognitive Complexity from 38 to the 15 allowed.(°–’Âıÿÿÿÿ8Ùóù›Ù2
-Epython:S1481…"%Remove the unused local variable "x".(˜Å—8Ùóù›Ù2
-\python:S5754"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8Úóù›Ù2
-Kpython:S5806·"+Rename this variable; it shadows a builtin.(ƒ¾‹š8Úóù›Ù2
-\python:S5754À"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8Úóù›Ù2
->python:S125Å"Remove this commented out code.(ÇãŸ8Úóù›Ù2
+kpython:S2208"GImport only needed names or import the module and then use its members.(İ¬™‘ûÿÿÿÿ8ŞÛíÙ2
+qpython:S117q"SRename this local variable "rT" to match the regular expression ^[_a-z][a-z0-9_]*$.(öÂø¯8ŞÛíÙ2
+spython:S3776_"TRefactor this function to reduce its Cognitive Complexity from 16 to the 15 allowed.(£Á€8ŞÛíÙ2
+Mpython:S1481d")Remove the unused local variable "count".(óÿÑ—øÿÿÿÿ8ŞÛíÙ2
+rpython:S117Ÿ"SRename this local variable "rT" to match the regular expression ^[_a-z][a-z0-9_]*$.(Õä±±8ŞÛíÙ2
+xpython:S3776u"TRefactor this function to reduce its Cognitive Complexity from 38 to the 15 allowed.(°–’Âıÿÿÿÿ8ŞÛíÙ2
+Epython:S1481†"%Remove the unused local variable "x".(˜Å—8ŞÛíÙ2
+\python:S5754‘"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8ŞÛíÙ2
+>python:S125£"Remove this commented out code.(¾êçÕ8ŞÛíÙ2
+>python:S125Ä"Remove this commented out code.(´š³Ş8àÛíÙ2
+Kpython:S5806Ñ"+Rename this variable; it shadows a builtin.(ƒ¾‹š8àÛíÙ2
+\python:S5754Ú"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8àÛíÙ2

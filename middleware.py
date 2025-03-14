@@ -14,6 +14,7 @@ from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
 from telethon import TelegramClient
 from telethon.tl.types import PeerChannel
+from pyrogram import Client
 
 from moviepy.editor import *
 from moviepy.video.fx import crop
@@ -159,20 +160,45 @@ def end_draw_timer():
     rT.start()
 
 
+# async def check_reactions(user_id, n_posts):
+#     try:
+#         async with TelegramClient('new6', config.api_id, config.api_hash, system_version="4.16.30-vxCUSTOM") as client:
+#             print("Connected successfully")
+#             entity = await client.get_entity('t.me/hallomememe')
+#             total_reactions = 0
+#             print("get_entity")
+#             async for message in client.iter_messages(entity, limit=n_posts):
+#                 print("post checked")
+#                 if message.reactions:
+#                     reactions = message.reactions
+#                     for reaction in reactions.results:
+#                         if reaction.user_id == user_id:
+#                             total_reactions += 1
+#             print("messages checked")
+#             return total_reactions
+#     except Exception as e:
+#         print("Traceback with code: ", e)
+
+
 async def check_reactions(user_id, n_posts):
     try:
-        async with TelegramClient('new5', config.api_id, config.api_hash) as client:
+        async with Client("new6", api_id=config.api_id, api_hash=config.api_hash) as client:
             print("Connected successfully")
-            entity = await client.get_entity('t.me/hallomememe')
+            entity = await client.get_chat("hallomememe")
             total_reactions = 0
             print("get_entity")
-            async for message in client.iter_messages(entity, limit=n_posts):
-                print("post checked")
+
+            async for message in client.get_chat_history(entity.id, limit=n_posts):
+                print("post checked " + user_id)
+                # Если у сообщения есть реакции, проверяем их
                 if message.reactions:
-                    reactions = message.reactions
-                    for reaction in reactions.results:
-                        if reaction.user_id == user_id:
-                            total_reactions += 1
+                    total_reactions += 1
+                    # for reaction in message.reactions:  # reaction_type - это тип реакции
+                    #     # Порядок начинается с 0, поэтому используем индексацию для доступа к результатам
+                    #     for result in reaction.users:  # 'users' это список пользователей, которые поставили реакцию
+                    #         if result.id == user_id:
+                    #             total_reactions += 1
+
             print("messages checked")
             return total_reactions
     except Exception as e:
@@ -194,11 +220,11 @@ def new_player(call):
 
     players = middleware_base.get_one(models.DrawPlayer, draw_id=str(tmp.id), user_id=str(call.from_user.id))
     if players is None:
-        # total_reactions = asyncio.run(check_reactions(call.from_user.id, tmp.n_posts))
-        # print("User reacted: ", total_reactions)
-        # if total_reactions < tmp.n_posts:
-        #     print('error')
-        #     return 'n_posts_error'
+        total_reactions = asyncio.run(check_reactions(call.from_user.id, tmp.n_posts))
+        print("User reacted: ", total_reactions)
+        if total_reactions < tmp.n_posts:
+            print('error')
+            return 'n_posts_error'
         middleware_base.new(models.DrawPlayer, tmp.id, str(call.from_user.id), str(call.from_user.username))
         tmz = middleware_base.select_all(models.DrawPlayer, draw_id=tmp.id)
         return len(tmz), language_check(tmp.user_id)[1]['draw']['play']
