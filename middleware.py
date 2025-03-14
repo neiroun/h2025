@@ -158,28 +158,30 @@ def end_draw_timer():
 
 
 async def check_reactions(user_id, n_posts):
-    try:
-        async with Client("new6", api_id=config.api_id, api_hash=config.api_hash) as client:
-            print("Connected successfully")
-            entity = await client.get_chat("hallomememe")
-            total_reactions = 0
-            print("get_entity")
+    if n_posts != 0:
+        try:
+            async with Client("new6", api_id=config.api_id, api_hash=config.api_hash) as client:
+                print("Connected successfully")
+                entity = await client.get_chat("hallomememe")
+                total_reactions = 0
+                print("get_entity")
 
-            async for message in client.get_chat_history(entity.id, limit=n_posts):
-                print("post checked " + str(user_id))
-                # Если у сообщения есть реакции пользователя, проверяем их
-                if message.reactions:
-                    total_reactions += 1
-                    # for reaction in message.reactions:  # reaction_type - это тип реакции
-                    #     # Порядок начинается с 0, поэтому используем индексацию для доступа к результатам
-                    #     for result in reaction.users:  # 'users' это список пользователей, которые поставили реакцию
-                    #         if result.id == user_id:
-                    #             total_reactions += 1
+                async for message in client.get_chat_history(entity.id, limit=n_posts):
+                    print("post checked " + str(user_id))
+                    # Если у сообщения есть реакции пользователя, проверяем их
+                    if message.reactions:
+                        total_reactions += 1
+                        # for reaction in message.reactions:  # reaction_type - это тип реакции
+                        #     # Порядок начинается с 0, поэтому используем индексацию для доступа к результатам
+                        #     for result in reaction.users:  # 'users' это список пользователей, которые поставили реакцию
+                        #         if result.id == user_id:
+                        #             total_reactions += 1
 
-            print("messages checked")
-            return total_reactions
-    except Exception as e:
-        print("Traceback with code: ", traceback.format_exc())
+                print("messages checked")
+                return total_reactions
+        except Exception as e:
+            print("Traceback with code: ", traceback.format_exc())
+    return 0
 
 
 def new_player(call):

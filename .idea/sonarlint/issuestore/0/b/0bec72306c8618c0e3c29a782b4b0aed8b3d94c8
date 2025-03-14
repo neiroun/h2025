@@ -1,13 +1,13 @@
 
-kpython:S2208"GImport only needed names or import the module and then use its members.(İ¬™‘ûÿÿÿÿ8ëûïÙ2
-qpython:S117n"SRename this local variable "rT" to match the regular expression ^[_a-z][a-z0-9_]*$.(öÂø¯8ëûïÙ2
-spython:S3776\"TRefactor this function to reduce its Cognitive Complexity from 16 to the 15 allowed.(£Á€8ëûïÙ2
-Mpython:S1481a")Remove the unused local variable "count".(óÿÑ—øÿÿÿÿ8ëûïÙ2
-rpython:S117œ"SRename this local variable "rT" to match the regular expression ^[_a-z][a-z0-9_]*$.(Õä±±8ëûïÙ2
-xpython:S3776r"TRefactor this function to reduce its Cognitive Complexity from 38 to the 15 allowed.(°–’Âıÿÿÿÿ8ìûïÙ2
-Epython:S1481ƒ"%Remove the unused local variable "x".(˜Å—8ìûïÙ2
-\python:S5754"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8ìûïÙ2
-Jpython:S1481µ"%Remove the unused local variable "e".(¼–¯¸ÿÿÿÿÿ8ìûïÙ2
->python:S125­"Remove this commented out code.(´š³Ş8ìûïÙ2
-Kpython:S5806º"+Rename this variable; it shadows a builtin.(ƒ¾‹š8ìûïÙ2
-\python:S5754Ã"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8ìûïÙ2
+kpython:S2208"GImport only needed names or import the module and then use its members.(İ¬™‘ûÿÿÿÿ8¨ïĞŸÙ2
+qpython:S117n"SRename this local variable "rT" to match the regular expression ^[_a-z][a-z0-9_]*$.(öÂø¯8¨ïĞŸÙ2
+spython:S3776\"TRefactor this function to reduce its Cognitive Complexity from 16 to the 15 allowed.(£Á€8¨ïĞŸÙ2
+Mpython:S1481a")Remove the unused local variable "count".(óÿÑ—øÿÿÿÿ8¨ïĞŸÙ2
+rpython:S117œ"SRename this local variable "rT" to match the regular expression ^[_a-z][a-z0-9_]*$.(Õä±±8¨ïĞŸÙ2
+xpython:S3776r"TRefactor this function to reduce its Cognitive Complexity from 38 to the 15 allowed.(°–’Âıÿÿÿÿ8¨ïĞŸÙ2
+Epython:S1481ƒ"%Remove the unused local variable "x".(˜Å—8¨ïĞŸÙ2
+\python:S5754"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8¨ïĞŸÙ2
+Jpython:S1481¶"%Remove the unused local variable "e".(¼–¯¸ÿÿÿÿÿ8¨ïĞŸÙ2
+>python:S125®"Remove this commented out code.(´š³Ş8¨ïĞŸÙ2
+Kpython:S5806¼"+Rename this variable; it shadows a builtin.(ƒ¾‹š8¨ïĞŸÙ2
+\python:S5754Å"<Specify an exception class to catch or reraise the exception(ˆÊÉ·8¨ïĞŸÙ2
