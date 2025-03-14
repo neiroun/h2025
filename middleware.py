@@ -1,4 +1,3 @@
-import queue
 import time
 import traceback
 
@@ -12,8 +11,6 @@ from tool import language_check, create_inlineKeyboard
 from app import middleware_base, bot, post_base, end_base
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
-from telethon import TelegramClient
-from telethon.tl.types import PeerChannel
 from pyrogram import Client
 
 from moviepy.editor import *
@@ -158,26 +155,6 @@ def end_draw_timer():
             time.sleep(5)
     rT = threading.Thread(target = end_timer)
     rT.start()
-
-
-# async def check_reactions(user_id, n_posts):
-#     try:
-#         async with TelegramClient('new6', config.api_id, config.api_hash, system_version="4.16.30-vxCUSTOM") as client:
-#             print("Connected successfully")
-#             entity = await client.get_entity('t.me/hallomememe')
-#             total_reactions = 0
-#             print("get_entity")
-#             async for message in client.iter_messages(entity, limit=n_posts):
-#                 print("post checked")
-#                 if message.reactions:
-#                     reactions = message.reactions
-#                     for reaction in reactions.results:
-#                         if reaction.user_id == user_id:
-#                             total_reactions += 1
-#             print("messages checked")
-#             return total_reactions
-#     except Exception as e:
-#         print("Traceback with code: ", e)
 
 
 async def check_reactions(user_id, n_posts):
