@@ -206,7 +206,7 @@ def new_player(call):
         tmz = middleware_base.select_all(models.DrawPlayer, draw_id=tmp.id)
         return len(tmz), language_check(tmp.user_id)[1]['draw']['play']
     else:
-        print('bool')
+        print('remove from draw')
         middleware_base.delete(models.DrawPlayer, draw_id=tmp.id, user_id=call.from_user.id)
         return False
 
