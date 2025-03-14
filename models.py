@@ -11,6 +11,20 @@ engine = create_engine(config.db_url, echo=False)
 session = scoped_session(sessionmaker(bind=engine,autoflush=False))
 Base = declarative_base()
 
+
+class Channels(Base):
+	__tablename__ = 'channels'
+	id = Column(Integer, primary_key=True)
+	channel_id = Column(String)
+
+	def __init__(self, id, channel_id):
+		self.id = id
+		self.channel_id = channel_id
+
+	def __repr__(self):
+		return "<Channels(id='%s', channel_id='%s')>" % (self.id, self.channel.id)
+
+
 class User(Base):
 	__tablename__ = 'bot_user'
 	user_id = Column(String, primary_key=True)

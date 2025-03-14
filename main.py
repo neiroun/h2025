@@ -76,12 +76,88 @@ def change_language(message):
         bot.send_message(message.chat.id, language_check(message.chat.id)[1]['menu']['welcome_text'], reply_markup=keyboard.get_menu_keyboard(message.chat.id))
 
 
+@bot.message_handler(func=lambda message: True and message.text == language_check(message.chat.id)[1]['menu']['channels_menu'][-1])
+def back_editing(message):
+    bot.send_message(message.chat.id, text="Выберите действие", reply_markup=keyboard.channel_buttons(message.chat.id))
+
+
 @bot.message_handler(func=lambda message: True and message.text == language_check(message.chat.id)[1]['draw']['back_in_menu'])
 def back_in_menu(message):
     base.delete(models.State, user_id=str(message.chat.id))
     base.delete(models.DrawProgress, user_id=(str(message.chat.id)))
     base.delete(models.SubscribeChannel, user_id=(str(message.chat.id)))
     bot.send_message(message.chat.id, language_check(message.chat.id)[1]['menu']['welcome_text'], reply_markup=keyboard.get_menu_keyboard(message.chat.id))
+
+
+@bot.message_handler(func=lambda message: True and message.text == language_check(message.chat.id)[1]['menu']['menu_buttons'][-1])
+def channels_edit(message):
+    bot.send_message(message.chat.id, text="Выберите действие", reply_markup=keyboard.channel_buttons(message.chat.id))
+    # channels = base.select_all(models.Channels)
+    # print(channels)
+
+
+@bot.message_handler(func=lambda message: True and message.text == language_check(message.chat.id)[1]['menu']['channels_menu'][1])
+def delete_channel(message):
+    try:
+        if len(base.select_all(models.Channels)) > 0:
+            text = language_check(str(message.chat.id))
+            back_button = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+            back_button.row(text[1]['menu']['channels_menu'][-1])
+            bot.send_message(message.chat.id,
+                             text="Вам отправлен список каналов доступных для удаления.",
+                             reply_markup=back_button)
+            markup = telebot.types.InlineKeyboardMarkup()
+            channels = [channel.channel_id for channel in base.select_all(models.Channels)]
+            for channel in channels:
+                # Предполагаем, что `channel` имеет атрибут `name` для отображения имени канала
+                button = telebot.types.InlineKeyboardButton(text=channel, callback_data=f'delete_{channel}')
+                markup.add(button)
+
+            # Отправляем сообщение с инлайн-кнопками под предыдущим сообщением
+            bot.send_message(message.chat.id, text="Выберите канал, который вы хотели бы удалить ❌",
+                             reply_markup=markup)
+        else:
+            bot.send_message(message.chat.id, text="У вас нет добавленных каналов, которые можно удалить 😞")
+    except:
+        print(traceback.format_exc())
+
+
+@bot.callback_query_handler(func=lambda call: call.data.startswith('delete_'))
+def handle_delete_channel(call):
+    channel_id = call.data.split('_')[1]
+    base.delete(models.Channels, channel_id=channel_id)
+    bot.send_message(call.from_user.id, text="Канал " + str(channel_id) + " успешно удален ✅", reply_markup=keyboard.channel_buttons(call.from_user.id))
+
+
+@bot.message_handler(func=lambda message: True and message.text == language_check(message.chat.id)[1]['menu']['channels_menu'][0])
+def add_channel(message):
+    text = language_check(str(message.chat.id))
+    back_button = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    back_button.row(text[1]['menu']['channels_menu'][-1])
+    fsm.set_state(message.chat.id, 'add_channel_base')
+    bot.send_message(message.chat.id, text="Введите юзернейм канала в формате @username. 🎉 Вы должны быть администратором этого канала и добавить в администраторы бота. 🤖 Если канал приватный, то необходимо отправить ID этого канала. 🔐 Чтобы узнать ID приватного канала, перешлите любой пост из этого канала специальному боту @getmyid_bot. 📩 Нижняя строка — ответ от бота и будет являться ID вашего приватного канала. 📜 Перешлите этот ID боту! 🚀", reply_markup=back_button)
+
+
+@bot.message_handler(func=lambda message: True and fsm.get_state(message.chat.id)[0] == 'add_channel_base')
+def add_channel(message):
+    status = ['creator', 'administrator']
+    text = language_check(str(message.chat.id))[1]['menu']
+    back_button = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    back_button.row(text['channels_menu'][-1])
+
+    try:
+        if str(bot.get_chat_member(chat_id=message.text, user_id=message.from_user.id).status) not in status:
+            bot.send_message(text['not_admin'], reply_markup=back_button)
+            return ''
+        tmp = bot.send_message(message.text, 'test')
+        bot.delete_message(tmp.chat.id, tmp.message_id)
+        id = len([channel.channel_id for channel in base.select_all(models.Channels)])
+        base.new(models.Channels, id, message.text)
+        bot.send_message(message.chat.id, text="Канал успешно добавлен ✅", reply_markup=keyboard.channel_buttons(message.chat.id))
+    except:
+        print(traceback.format_exc())
+        bot.send_message(message.chat.id, text['not_in_chanel'], reply_markup=back_button)
+        return ''
 
 
 @bot.message_handler(func=lambda message: True and message.text == language_check(message.chat.id)[1]['draw']['back'] and middleware.check_post(message.chat.id) != None)
@@ -146,9 +222,39 @@ def enter_id(message):
     text = language_check(str(message.chat.id))[1]['draw']
     back_button = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
     back_button.row(text['back_in_menu'])
+    markup = telebot.types.InlineKeyboardMarkup()
+    channels = [channel.channel_id for channel in base.select_all(models.Channels)]
+    for channel in channels:
+        # Предполагаем, что `channel` имеет атрибут `name` для отображения имени канала
+        button = telebot.types.InlineKeyboardButton(text=channel, callback_data=f'Choose_{channel}')
+        markup.add(button)
     fsm.set_state(message.chat.id, "writting_channel_id")
     bot.send_message(message.chat.id, text['chanel_id'], reply_markup=back_button)
+    if len(channels) > 0:
+        bot.send_message(message.chat.id, text='Выбрать 📋', reply_markup=markup)
+    else:
+        bot.send_message(message.chat.id, text="У вас нет сохраненных каналов, пожалуйста следуйте указаниям выше или вернитесь в меню и добавьте канал во вкладке 'Редактировать каналы'")
 
+
+@bot.callback_query_handler(func=lambda call: call.data.startswith('Choose_'))
+def handle_enter_text(call):
+    channel_id = call.data.split('_')[1]
+    status = ['creator', 'administrator']
+    text = language_check(str(call.from_user.id))[1]['draw']
+    back_button = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
+    back_button.row(text['back_in_menu'])
+
+    try:
+        if str(bot.get_chat_member(chat_id=channel_id, user_id=call.from_user.id).status) not in status:
+            bot.send_message(text['not_admin'], reply_markup=back_button)
+            return ''
+        tmp = bot.send_message(channel_id, 'test')
+        bot.delete_message(tmp.chat.id, tmp.message_id)
+    except:
+        bot.send_message(call.from_user.id, text['not_in_chanel'], reply_markup=back_button)
+        return ''
+    fsm.set_state(call.from_user.id, "writting_text", chanel_id=channel_id, chanel_name=tmp.chat.title)
+    bot.send_message(call.from_user.id, text['draw_text'], reply_markup=back_button)
 
 @bot.message_handler(func=lambda message: True and fsm.get_state(message.chat.id)[0] == 'writting_channel_id')
 def enter_text(message):
@@ -511,8 +617,30 @@ def publish_video_get_id(message):
     back_button = telebot.types.ReplyKeyboardMarkup(resize_keyboard=True)
     back_button.row(text[1]['create_video']['back_in_menu'])
     bot.send_message(message.chat.id, language_check(message.chat.id)[1]['draw']['chanel_id'], reply_markup=back_button)
+    markup = telebot.types.InlineKeyboardMarkup()
+    channels = [channel.channel_id for channel in base.select_all(models.Channels)]
+    for channel in channels:
+        # Предполагаем, что `channel` имеет атрибут `name` для отображения имени канала
+        button = telebot.types.InlineKeyboardButton(text=channel, callback_data=f'Chooseone_{channel}')
+        markup.add(button)
+    if len(channels) > 0:
+        bot.send_message(message.chat.id, text='Выбрать 📋', reply_markup=markup)
+    else:
+        bot.send_message(message.chat.id,
+                         text="У вас нет сохраненных каналов, пожалуйста следуйте указаниям выше или вернитесь в меню и добавьте канал во вкладке 'Редактировать каналы'")
     fsm.set_state(message.chat.id, 'publish_video')
 
+
+@bot.callback_query_handler(func=lambda call: call.data.startswith('Chooseone_'))
+def publish_video(call):
+    channel_id = call.data.split('_')[1]
+    text = language_check(str(call.from_user.id))
+    with open(f"{FILE_VIDEO_PATH}", "rb") as video:
+        bot.send_video_note(channel_id, video)
+    os.remove(f"{FILE_VIDEO_PATH}")
+    bot.send_message(call.from_user.id, language_check(call.from_user.id)[1]['menu']['welcome_text'],
+                     reply_markup=keyboard.get_menu_keyboard(call.from_user.id))
+    middleware.delete_files_in_folder('temp_videos')
 
 ####публикация видео в канале
 @bot.message_handler(content_types=['text'], func=lambda message: True and fsm.get_state(message.chat.id)[0] == 'publish_video')
