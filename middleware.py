@@ -250,6 +250,24 @@ def process_video(input_path, output_path):
     # Закрываем видео
     video.close()
     cropped_video.close()
+    
+
+def add_watermark(input_video_path, output_video_path, watermark_path):
+	# Загружаем оригинальное видео
+	video = VideoFileClip(input_video_path)
+
+	# Загружаем изображение водяного знака
+	watermark = ImageClip(watermark_path)
+
+	# Устанавливаем продолжительность водяного знака
+	watermark = watermark.set_duration(video.duration)
+
+	# Устанавливаем положение водяного знака (например, нижний правый угол)
+	watermark = watermark.set_position(("center", "center")).set_opacity(1)
+
+	# Создаем новое видео с водяным знаком
+	result = CompositeVideoClip([video, watermark])
+	result.write_videofile(output_video_path, codec='libx264')
 
 
 
