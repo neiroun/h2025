@@ -147,7 +147,7 @@ def add_channel(message):
 
     try:
         if str(bot.get_chat_member(chat_id=message.text, user_id=message.from_user.id).status) not in status:
-            bot.send_message(text['not_admin'], reply_markup=back_button)
+            bot.send_message(language_check(str(message.chat.id))[1]['draw']['not_admin'], reply_markup=back_button)
             return ''
         tmp = bot.send_message(message.text, 'test')
         bot.delete_message(tmp.chat.id, tmp.message_id)
@@ -156,7 +156,7 @@ def add_channel(message):
         bot.send_message(message.chat.id, text="Канал успешно добавлен ✅", reply_markup=keyboard.channel_buttons(message.chat.id))
     except:
         print(traceback.format_exc())
-        bot.send_message(message.chat.id, text['not_in_chanel'], reply_markup=back_button)
+        bot.send_message(message.chat.id, language_check(str(message.chat.id))[1]['draw']['not_in_chanel'], reply_markup=back_button)
         return ''
 
 
@@ -637,7 +637,7 @@ def publish_video_get_id(message):
 def publish_video(call):
     channel_id = call.data.split('_')[1]
     text = language_check(str(call.from_user.id))
-    with open(f"{str(FILE_VIDEO_PATH).replace("temp_videos/", "temp_videos/1")}", "rb") as video:
+    with open(str(FILE_VIDEO_PATH).replace("temp_videos/", "temp_videos/1"), "rb") as video:
         bot.send_video_note(channel_id, video)
     bot.send_message(call.from_user.id, language_check(call.from_user.id)[1]['menu']['welcome_text'],
                      reply_markup=keyboard.get_menu_keyboard(call.from_user.id))
@@ -647,7 +647,7 @@ def publish_video(call):
 @bot.message_handler(content_types=['text'], func=lambda message: True and fsm.get_state(message.chat.id)[0] == 'publish_video')
 def publish_video(message):
     text = language_check(str(message.chat.id))
-    with open(f"{str(FILE_VIDEO_PATH).replace("temp_videos/", "temp_videos/1")}", "rb") as video:
+    with open(str(FILE_VIDEO_PATH).replace("temp_videos/", "temp_videos/1"), "rb") as video:
         bot.send_video_note(message.text, video)
     bot.send_message(message.chat.id, language_check(message.chat.id)[1]['menu']['welcome_text'],
                      reply_markup=keyboard.get_menu_keyboard(message.chat.id))

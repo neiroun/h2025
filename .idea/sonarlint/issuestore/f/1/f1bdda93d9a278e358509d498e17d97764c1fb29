@@ -1,0 +1,66 @@
+
+gpython:S57970"HReplace this expression; used as a condition it will always be constant.(Ч┬╛╞8▀ол─┘2
+lpython:S5797C"HReplace this expression; used as a condition it will always be constant.(╬еЯ╒·    8рол─┘2
+gpython:S5797O"HReplace this expression; used as a condition it will always be constant.(┘ўХь8рол─┘2
+lpython:S5797T"HReplace this expression; used as a condition it will always be constant.(ўэЄ║№    8рол─┘2
+lpython:S5797\"HReplace this expression; used as a condition it will always be constant.(░У┼р¤    8рол─┘2
+gpython:S5797c"HReplace this expression; used as a condition it will always be constant.(╞М┌д8рол─┘2
+hpython:S5797Д"HReplace this expression; used as a condition it will always be constant.(╧ЦЛУ8рол─┘2
+mpython:S5797Н"HReplace this expression; used as a condition it will always be constant.(И┴л╪°    8рол─┘2
+hpython:S5797г"HReplace this expression; used as a condition it will always be constant.(╣ы╟▒8рол─┘2
+mpython:S5797й"HReplace this expression; used as a condition it will always be constant.(║°фб■    8рол─┘2
+mpython:S5797п"HReplace this expression; used as a condition it will always be constant.(Еёи╒·    8рол─┘2
+mpython:S5797┐"HReplace this expression; used as a condition it will always be constant.(╙ые╖·    8рол─┘2
+gpython:S5797╨"HReplace this expression; used as a condition it will always be constant.( А╖8рол─┘2
+mpython:S5797┌"HReplace this expression; used as a condition it will always be constant.(╘╡╞╔¤    8рол─┘2
+hpython:S5797Г"HReplace this expression; used as a condition it will always be constant.(У╪┴т8рол─┘2
+hpython:S5797Ч"HReplace this expression; used as a condition it will always be constant.(єЭї║8рол─┘2
+mpython:S5797б"HReplace this expression; used as a condition it will always be constant.(Ъ╟▐·■    8рол─┘2
+mpython:S5797╖"HReplace this expression; used as a condition it will always be constant.(░╧╧ї     8рол─┘2
+hpython:S5797╔"HReplace this expression; used as a condition it will always be constant.(є╛╟ь8рол─┘2
+hpython:S5797▄"HReplace this expression; used as a condition it will always be constant.(╓╝н╕8рол─┘2
+gpython:S5797Ї"HReplace this expression; used as a condition it will always be constant.(╣вЎ98рол─┘2
+mpython:S5797У"HReplace this expression; used as a condition it will always be constant.(ФП┐╬     8рол─┘2
+mpython:S5797Ъ"HReplace this expression; used as a condition it will always be constant.(ЕЇ╢М°    8рол─┘2
+hpython:S5797░"HReplace this expression; used as a condition it will always be constant.(чЩ├╪8рол─┘2
+mpython:S5797╖"HReplace this expression; used as a condition it will always be constant.(╫╜Оь·    8рол─┘2
+mpython:S5797═"HReplace this expression; used as a condition it will always be constant.(╡ТЩР     8рол─┘2
+mpython:S5797╘"HReplace this expression; used as a condition it will always be constant.(╬ь╙к¤    8рол─┘2
+hpython:S5797р"HReplace this expression; used as a condition it will always be constant.(▓ў╚╙8рол─┘2
+mpython:S5797ч"HReplace this expression; used as a condition it will always be constant.(иТ╞Ё     8рол─┘2
+mpython:S5797э"HReplace this expression; used as a condition it will always be constant.(Т┼Б╧     8рол─┘2
+mpython:S5797Ї"HReplace this expression; used as a condition it will always be constant.(В╪╘┼¤    8рол─┘2
+hpython:S5797А"HReplace this expression; used as a condition it will always be constant.(щ∙▄ч8рол─┘2
+mpython:S5797З"HReplace this expression; used as a condition it will always be constant.(пфЫэ·    8рол─┘2
+mpython:S5797Ш"HReplace this expression; used as a condition it will always be constant.(ЎСР╝№    8рол─┘2
+hpython:S5797Я"HReplace this expression; used as a condition it will always be constant.(лЫЁ∙8рол─┘2
+mpython:S5797▒"HReplace this expression; used as a condition it will always be constant.(шсш╤№    8рол─┘2
+mpython:S5797╒"HReplace this expression; used as a condition it will always be constant.(╘ыбч·    8рол─┘2
+hpython:S5797ш"HReplace this expression; used as a condition it will always be constant.(╒З▓║8рол─┘2
+hpython:S5797З"HReplace this expression; used as a condition it will always be constant.(сУ╫■8рол─┘2
+kpython:S2208"GImport only needed names or import the module and then use its members.(▌мЩС√    8рол─┘2
+Ipython:S1481?"%Remove the unused local variable "e".(╝Цп╕     8рол─┘2
+=python:S125_"Remove this commented out code.(∙╬ИУ8рол─┘2
+[python:S5754y"<Specify an exception class to catch or reraise the exception(И╩╔╖8рол─┘2
+^python:S3516О"9Refactor this method to not always return the same value.(ї╒Ж╜√    8сол─┘2
+\python:S5754Э"<Specify an exception class to catch or reraise the exception(И╩╔╖8сол─┘2
+Ppython:S5806Ъ"+Rename this variable; it shadows a builtin.(Иє├╕·    8сол─┘2
+\python:S5754║"<Specify an exception class to catch or reraise the exception(И╩╔╖8сол─┘2
+\python:S5754╦"<Specify an exception class to catch or reraise the exception(И╩╔╖8сол─┘2
+\python:S5754¤"<Specify an exception class to catch or reraise the exception(И╩╔╖8сол─┘2
+\python:S5754Р"<Specify an exception class to catch or reraise the exception(И╩╔╖8сол─┘2
+\python:S5754╝"<Specify an exception class to catch or reraise the exception(И╩╔╖8сол─┘2
+\python:S5754╬"<Specify an exception class to catch or reraise the exception(И╩╔╖8сол─┘2
+\python:S5754с"<Specify an exception class to catch or reraise the exception(И╩╔╖8сол─┘2
+\python:S5754∙"<Specify an exception class to catch or reraise the exception(И╩╔╖8сол─┘2
+\python:S5754Я"<Specify an exception class to catch or reraise the exception(И╩╔╖8сол─┘2
+\python:S5754╝"<Specify an exception class to catch or reraise the exception(И╩╔╖8сол─┘2
+\python:S5754╪"<Specify an exception class to catch or reraise the exception(И╩╔╖8сол─┘2
+\python:S5754∙"<Specify an exception class to catch or reraise the exception(И╩╔╖8сол─┘2
+\python:S5754з"<Specify an exception class to catch or reraise the exception(И╩╔╖8сол─┘2
+Ppython:S1481╥"+Remove the unused local variable "file_id".(ї╤№м√    8сол─┘2
+Rpython:S1481╙"-Remove the unused local variable "file_type".(╝└╠з№    8сол─┘2
+Gpython:S1481└"'Remove the unused local variable "tmp".(лН¤Д8сол─┘2
+Cpython:S125╩"Remove this commented out code.(√▓╕─√    8сол─┘2
+Hpython:S1481 "(Remove the unused local variable "text".(ЖЬ╩є8сол─┘2
+Hpython:S1481Й"(Remove the unused local variable "text".(№ътЗ8сол─┘2

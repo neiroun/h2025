@@ -215,7 +215,7 @@ def new_player(call):
 
 def convert_to_square(input_video_path, output_video_path, message, flag):
     # Prеобразование видео в видеокружок
-    input_video = VideoFileClip(f"{str(input_video_path).replace("temp_videos/", "temp_videos/1") if flag else input_video_path}")
+    input_video = VideoFileClip(str(input_video_path).replace("temp_videos/", "temp_videos/1") if flag else input_video_path)
 
     w, h = input_video.size
     circle_size = 360
@@ -231,9 +231,9 @@ def convert_to_square(input_video_path, output_video_path, message, flag):
     resized_video = input_video.resize((new_w, new_h))
     output_video = resized_video.crop(x_center=resized_video.w / 2, y_center=resized_video.h / 2, width=circle_size,
                                       height=circle_size)
-    output_video.write_videofile(f"{str(output_video_path).replace("temp_videos/", "temp_videos/1") if flag else output_video_path}", codec="libx264", audio_codec="aac", bitrate="5M")
+    output_video.write_videofile(str(output_video_path).replace("temp_videos/", "temp_videos/1") if flag else output_video_path, codec="libx264", audio_codec="aac", bitrate="5M")
 
-    with open(f"{str(output_video_path).replace("temp_videos/", "temp_videos/1") if flag else output_video_path}", "rb") as video:
+    with open(str(output_video_path).replace("temp_videos/", "temp_videos/1") if flag else output_video_path, "rb") as video:
         bot.send_video_note(message.chat.id, video)
 
 def add_watermark(input_video_path, output_video_path, watermark_path):
