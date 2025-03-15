@@ -587,9 +587,8 @@ def enter_video(message):
 		# middleware.convert_to_square(input_video_path, output_video_path, message)
 		bot.send_message(message.chat.id, language_check(message.chat.id)[1]['create_video']['change_filter'],
 						 reply_markup=keyboard.change_filter(message.chat.id))
-		# os.remove(input_video_path)
 		FILE_VIDEO_PATH = output_video_path
-		#os.remove(output_video_path)
+	
 	else:
 		print('puzda')
 		file_id = ''
@@ -598,13 +597,16 @@ def enter_video(message):
 @bot.message_handler(content_types=['text'], func=lambda message: True and message.text in language_check(message.chat.id)[1]['create_video']['filter']) ### получить и отправить видос в лс
 def enter_video(message):
 	global input_video_path, output_video_path
+	flag = False
 	print("vse zaecich")
 	bot.send_message(message.chat.id, "Видео создается")
 	if message.text == language_check(message.chat.id)[1]['create_video']['filter'][0]:
 		middleware.add_watermark(input_video_path, input_video_path, 'apz.png')
+		flag = True
 	elif message.text == language_check(message.chat.id)[1]['create_video']['filter'][1]:
 		middleware.add_frame(input_video_path, input_video_path, 'apz2.png')
-	middleware.convert_to_square(input_video_path, output_video_path, message)
+		flag = True
+	middleware.convert_to_square(input_video_path, output_video_path, message, flag)
 	bot.send_message(message.chat.id, language_check(message.chat.id)[1]['create_video']['change_action'],
 	                 reply_markup=keyboard.change_video(message.chat.id))
 	
@@ -635,9 +637,8 @@ def publish_video_get_id(message):
 def publish_video(call):
     channel_id = call.data.split('_')[1]
     text = language_check(str(call.from_user.id))
-    with open(f"{FILE_VIDEO_PATH}", "rb") as video:
+    with open(f"{str(FILE_VIDEO_PATH).replace("temp_videos/", "temp_videos/1")}", "rb") as video:
         bot.send_video_note(channel_id, video)
-    os.remove(f"{FILE_VIDEO_PATH}")
     bot.send_message(call.from_user.id, language_check(call.from_user.id)[1]['menu']['welcome_text'],
                      reply_markup=keyboard.get_menu_keyboard(call.from_user.id))
     middleware.delete_files_in_folder('temp_videos')
@@ -646,9 +647,8 @@ def publish_video(call):
 @bot.message_handler(content_types=['text'], func=lambda message: True and fsm.get_state(message.chat.id)[0] == 'publish_video')
 def publish_video(message):
     text = language_check(str(message.chat.id))
-    with open(f"{FILE_VIDEO_PATH}", "rb") as video:
+    with open(f"{str(FILE_VIDEO_PATH).replace("temp_videos/", "temp_videos/1")}", "rb") as video:
         bot.send_video_note(message.text, video)
-    os.remove(f"{FILE_VIDEO_PATH}")
     bot.send_message(message.chat.id, language_check(message.chat.id)[1]['menu']['welcome_text'],
                      reply_markup=keyboard.get_menu_keyboard(message.chat.id))
     middleware.delete_files_in_folder('temp_videos')
