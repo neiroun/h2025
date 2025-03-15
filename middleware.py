@@ -239,12 +239,15 @@ def convert_to_square(input_video_path, output_video_path, message, flag):
 def add_watermark(input_video_path, output_video_path, watermark_path):
 	# Загружаем оригинальное видео
 	video = VideoFileClip(input_video_path)
+	min_size = min(video.size)
 
 	# Загружаем изображение водяного знака
 	watermark = ImageClip(watermark_path)
 
 	# Устанавливаем продолжительность водяного знака
 	watermark = watermark.set_duration(video.duration)
+	
+	watermark = watermark.resize(height=min_size)
 
 	# Устанавливаем положение водяного знака (например, нижний правый угол)
 	watermark = watermark.set_position(("center", "center")).set_opacity(0.5)

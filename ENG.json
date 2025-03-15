@@ -5,9 +5,15 @@
             "Create giveaway 🎁",
             "My giveaways 🎉",
             "Сменить язык 🇷🇺",
-            "Create a video message \uD83C\uDFA5"
+            "Create a video message \uD83C\uDFA5",
+            "Edit contacts \uD83D\uDCE2"
         ],
-        "notes_text": "Select the next action"
+        "notes_text": "Select the next action",
+        "channels_menu": [
+              "Add channel \uD83D\uDCE2",
+              "Delete channel \uD83D\uDD10",
+              "Back to editing ↩️"
+          ]
     },
     "draw": {
         "back_in_menu": "Back in menu ↩️",
@@ -70,5 +76,12 @@
         "next": "Next",
         "back": "Back"
     },
-    "create_video": {"get_video": "Send video in format .mp4", "back_in_menu": "Back in menu ↩️", "wait_video": "Video is being created", "change_action":"Video ready \n \n Publish video to channel?", "change_button": ["Publish", "Overwrite", "Back in menu ↩️"]}
+    "create_video": {
+      "get_video": "Send video in format .mp4",
+      "back_in_menu": "Back in menu ↩️",
+      "wait_video": "Video is being created",
+      "change_action":"Video ready \n \n Publish video to channel?",
+      "change_button": ["Publish", "Overwrite", "Back in menu ↩️"],
+      "filter": ["Add watermark Ⓒ", "Add a frame \uD83D\uDDBC", "Without everything \uD83D\uDEAB"]
+    }
 }
